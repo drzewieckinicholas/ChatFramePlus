@@ -6,3 +6,6 @@
 ## Notes: Further customization for chat frames
 ## SavedVariables: ChatFramePlusDB
 ## Version: @project-version@
+
+# Libraries
+Libs/Libs.xml
