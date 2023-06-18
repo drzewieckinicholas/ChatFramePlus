@@ -8,4 +8,10 @@
 ## Version: @project-version@
 
 # Libraries
-Libs/Libs.xml
+Libs\Libs.xml
+
+# Initialization
+Init\Init.lua
+
+# Core
+Core\Core.lua

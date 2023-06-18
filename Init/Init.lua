@@ -1,0 +1,3 @@
+local AddonName, _ = ...
+
+LibStub("AceAddon-3.0"):NewAddon(AddonName)
