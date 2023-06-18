@@ -13,5 +13,9 @@ Libs\Libs.xml
 # Initialization
 Init\Init.lua
 
+# Utils
+Utils\ChatFrame.lua
+
 # Core
 Core\Core.lua
+Core\Database.lua
