@@ -3,13 +3,13 @@ local AddonName, Private = ...
 local ChatFramePlus = LibStub("AceAddon-3.0"):GetAddon(AddonName)
 
 function ChatFramePlus:OnInitialize()
-    print("ChatFramePlus:OnEnable")
+    print(AddonName .. ":OnInitialize")
 end
 
 function ChatFramePlus:OnEnable()
-    print("ChatFramePlus:OnEnable")
+    print(AddonName .. ":OnEnable")
 end
 
 function ChatFramePlus:OnDisable()
-    print("ChatFramePlus:OnDisable")
+    print(AddonName .. ":OnDisable")
 end
