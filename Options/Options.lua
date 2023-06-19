@@ -5,9 +5,11 @@ local Options = Private:CreateTable({ "Options" })
 local ChatFrameUtils = Private.Utils.ChatFrame
 
 local function getChatFrameOptions(chatFrame, index)
+	local FilterOptions = Options.Filter
 	local FontOptions = Options.Font
 
 	return {
+		filter = FilterOptions.getFilterOptions(index),
 		font = FontOptions.getFontOptions(chatFrame, index),
 	}
 end

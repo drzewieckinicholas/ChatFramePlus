@@ -11,6 +11,7 @@ function ChatFramePlus:OnInitialize()
 end
 
 function ChatFramePlus:OnEnable()
+	ChatFramePlus:EnableModule("Filter")
 	ChatFramePlus:EnableModule("Font")
 
 	ChatFrameHooks:Init()

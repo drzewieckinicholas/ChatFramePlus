@@ -9,6 +9,7 @@ local FontConstants = Private.Constants.Font
 
 local DatabaseUtils = Private.Utils.Database
 local OptionsUtils = Private.Utils.Options
+
 local createAccessors = OptionsUtils.createAccessors
 
 function FontOptions.getFontOptions(chatFrame, index)
@@ -25,9 +26,9 @@ function FontOptions.getFontOptions(chatFrame, index)
 	local getFontStyle, setFontStyle = createAccessors(fontTable, { "style" }, nil, nil, updateFunc)
 
 	return {
-		order = 1,
+		order = 2,
 		type = "group",
-		name = "Font",
+		name = FontModule.moduleName,
 		desc = "Options for the chat frame font",
 		args = {
 			fontOptionsGroup = {
