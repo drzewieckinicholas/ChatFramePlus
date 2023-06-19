@@ -1,3 +1,5 @@
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 # ChatFramePlus
 
 ChatFramePlus is an addon for World of Warcraft: Classic and Wrath of the Lich King: Classic that allows for further customization of chat frames.
