@@ -12,6 +12,14 @@ function ChatFrameUtils.forEachChatFrame(callback)
 	end
 end
 
+function ChatFrameUtils.getChatFrame(index)
+	return _G["ChatFrame" .. index]
+end
+
+function ChatFrameUtils.getChatFrameId(chatFrame)
+	return chatFrame and chatFrame:GetID()
+end
+
 function ChatFrameUtils.getChatFrameName(chatFrame)
 	return chatFrame and chatFrame:GetName()
 end
