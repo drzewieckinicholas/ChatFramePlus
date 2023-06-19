@@ -1,9 +1,8 @@
 local AddonName, Private = ...
 
-local ChatFrameHooks = Private:createTable({ "Hooks", "ChatFrame" })
+local ChatFrameHooks = Private:CreateTable({ "Hooks", "ChatFrame" })
 
-local ChatFramePlus = LibStub("AceAddon-3.0"):GetAddon(AddonName)
-local FontModule = ChatFramePlus:GetModule("Font")
+local FontModule = Private:GetModule("Font")
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 local DatabaseUtils = Private.Utils.Database

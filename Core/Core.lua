@@ -1,6 +1,6 @@
 local AddonName, Private = ...
 
-local ChatFramePlus = LibStub("AceAddon-3.0"):GetAddon(AddonName)
+local ChatFramePlus = Private:GetAddon()
 
 local ChatFrameHooks = Private.Hooks.ChatFrame
 

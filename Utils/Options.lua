@@ -2,7 +2,7 @@ local ipairs = ipairs
 
 local _, Private = ...
 
-local OptionsUtils = Private:createTable({ "Utils", "Options" })
+local OptionsUtils = Private:CreateTable({ "Utils", "Options" })
 
 function OptionsUtils.createGetter(tableFunc, keyPath, middleware)
 	return function(info)

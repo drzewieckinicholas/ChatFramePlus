@@ -1,6 +1,6 @@
 local AddonName, Private = ...
 
-local Options = Private:createTable({ "Options" })
+local Options = Private:CreateTable({ "Options" })
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 

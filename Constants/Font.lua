@@ -1,6 +1,6 @@
 local _, Private = ...
 
-local FontConstants = Private:createTable({ "Constants", "Font" })
+local FontConstants = Private:CreateTable({ "Constants", "Font" })
 
 FontConstants.SIZE_MIN = 12
 FontConstants.SIZE_MAX = 18

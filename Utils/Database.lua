@@ -1,6 +1,6 @@
 local _, Private = ...
 
-local DatabaseUtils = Private:createTable({ "Utils", "Database" })
+local DatabaseUtils = Private:CreateTable({ "Utils", "Database" })
 
 local function getTableByType(tableName, index, type)
 	local db = Private.db

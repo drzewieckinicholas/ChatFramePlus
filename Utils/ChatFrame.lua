@@ -1,10 +1,14 @@
+local _G = _G
+
+local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
+
 local _, Private = ...
 
-local ChatFrameUtils = Private:createTable({ "Utils", "ChatFrame" })
+local ChatFrameUtils = Private:CreateTable({ "Utils", "ChatFrame" })
 
 function ChatFrameUtils.forEachChatFrame(callback)
 	for index = 1, NUM_CHAT_WINDOWS do
-		local chatFrame = _G["ChatFrame" .. index]
+		local chatFrame = ChatFrameUtils.getChatFrame(index)
 
 		if chatFrame then
 			callback(chatFrame, index)
@@ -25,7 +29,7 @@ function ChatFrameUtils.getChatFrameName(chatFrame)
 end
 
 function ChatFrameUtils.getChatTab(chatFrame)
-	return chatFrame and _G[chatFrame:GetName() .. "Tab"]
+	return chatFrame and _G[ChatFrameUtils.getChatFrameName(chatFrame) .. "Tab"]
 end
 
 function ChatFrameUtils.getChatTabName(chatFrame)

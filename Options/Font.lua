@@ -1,11 +1,11 @@
-local AddonName, Private = ...
+local _, Private = ...
 
-local FontOptions = Private:createTable({ "Options", "Font" })
+local FontOptions = Private:CreateTable({ "Options", "Font" })
 
-local ChatFramePlus = LibStub("AceAddon-3.0"):GetAddon(AddonName)
-local FontModule = ChatFramePlus:GetModule("Font")
+local FontModule = Private:GetModule("Font")
 
 local FontConstants = Private.Constants.Font
+
 local DatabaseUtils = Private.Utils.Database
 local OptionsUtils = Private.Utils.Options
 local createAccessors = OptionsUtils.createAccessors
