@@ -6,7 +6,7 @@ local function createFontDatabaseDefaults()
 	return {
 		name = "Fonts\\ARIALN.TTF",
 		size = 14,
-		style = "NONE",
+		style = "",
 	}
 end
 

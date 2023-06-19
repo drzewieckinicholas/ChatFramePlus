@@ -12,7 +12,7 @@ FontConstants.NAMES = {
 }
 
 FontConstants.STYLES = {
-	["NONE"] = "None",
+	[""] = "None",
 	["OUTLINE"] = "Outline",
 	["THICKOUTLINE"] = "Thick Outline",
 }
