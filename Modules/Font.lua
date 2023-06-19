@@ -1,6 +1,6 @@
-local AddonName, Private = ...
+local _, Private = ...
 
-local ChatFramePlus = LibStub("AceAddon-3.0"):GetAddon(AddonName)
+local ChatFramePlus = Private:GetAddon()
 local FontModule = ChatFramePlus:NewModule("Font")
 
 local ChatFrameUtils = Private.Utils.ChatFrame

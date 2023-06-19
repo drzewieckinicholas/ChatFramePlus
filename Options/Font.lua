@@ -2,7 +2,8 @@ local _, Private = ...
 
 local FontOptions = Private:CreateTable({ "Options", "Font" })
 
-local FontModule = Private:GetModule("Font")
+local ChatFramePlus = Private:GetAddon()
+local FontModule = ChatFramePlus:GetModule("Font")
 
 local FontConstants = Private.Constants.Font
 

@@ -2,7 +2,8 @@ local AddonName, Private = ...
 
 local ChatFrameHooks = Private:CreateTable({ "Hooks", "ChatFrame" })
 
-local FontModule = Private:GetModule("Font")
+local ChatFramePlus = Private:GetAddon()
+local FontModule = ChatFramePlus:GetModule("Font")
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 local DatabaseUtils = Private.Utils.Database
