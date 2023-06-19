@@ -25,6 +25,9 @@ Utils\Options.lua
 # Modules
 Modules\Font.lua
 
+# Hooks
+Hooks\ChatFrame.lua
+
 # Core
 Core\Core.lua
 Core\Database.lua
