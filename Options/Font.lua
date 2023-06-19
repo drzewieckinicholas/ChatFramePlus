@@ -2,8 +2,7 @@ local _, Private = ...
 
 local FontOptions = Private:CreateTable({ "Options", "Font" })
 
-local ChatFramePlus = Private:GetAddon()
-local FontModule = ChatFramePlus:GetModule("Font")
+local FontModule = Private.Addon:GetModule("Font")
 
 local FontConstants = Private.Constants.Font
 
@@ -13,11 +12,11 @@ local OptionsUtils = Private.Utils.Options
 local createAccessors = OptionsUtils.createAccessors
 
 function FontOptions.getFontOptions(chatFrame, index)
-	local fontTable = function(_)
+	local fontTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "font")
 	end
 
-	local updateFunc = function(_)
+	local updateFunc = function()
 		FontModule:UpdateFont(chatFrame)
 	end
 
@@ -26,7 +25,7 @@ function FontOptions.getFontOptions(chatFrame, index)
 	local getFontStyle, setFontStyle = createAccessors(fontTable, { "style" }, nil, nil, updateFunc)
 
 	return {
-		order = 2,
+		order = 3,
 		type = "group",
 		name = FontModule.moduleName,
 		desc = "Options for the chat frame font",

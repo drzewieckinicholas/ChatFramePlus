@@ -1,7 +1,6 @@
 local _, Private = ...
 
-local ChatFramePlus = Private:GetAddon()
-local FontModule = ChatFramePlus:NewModule("Font")
+local FontModule = Private.Addon:NewModule("Font")
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 local DatabaseUtils = Private.Utils.Database

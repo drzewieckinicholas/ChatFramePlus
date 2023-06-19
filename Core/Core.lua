@@ -1,6 +1,6 @@
 local AddonName, Private = ...
 
-local ChatFramePlus = Private:GetAddon()
+local ChatFramePlus = Private.Addon
 
 local ChatFrameHooks = Private.Hooks.ChatFrame
 

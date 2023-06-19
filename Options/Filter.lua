@@ -4,8 +4,7 @@ local _, Private = ...
 
 local FilterOptions = Private:CreateTable({ "Options", "Filter" })
 
-local ChatFramePlus = Private:GetAddon()
-local FilterModule = ChatFramePlus:GetModule("Filter")
+local FilterModule = Private.Addon:GetModule("Filter")
 
 local DatabaseUtils = Private.Utils.Database
 local OptionsUtils = Private.Utils.Options
@@ -63,7 +62,7 @@ function FilterOptions.getFilterOptions(index)
 		createAccessors(getFilterTable, { "filterWords" }, getFilterWordsAsString, setFilterWordsFromString)
 
 	return {
-		order = 1,
+		order = 2,
 		type = "group",
 		childGroups = "tab",
 		name = FilterModule.moduleName,
@@ -78,7 +77,7 @@ function FilterOptions.getFilterOptions(index)
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
-						desc = "Toggle the filter on or off",
+						desc = "Toggle chat message filtering on or off",
 						width = "full",
 						get = getFilterEnabled,
 						set = setFilterEnabled,

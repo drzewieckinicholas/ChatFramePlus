@@ -2,8 +2,8 @@ local AddonName, Private = ...
 
 local ChatFrameHooks = Private:CreateTable({ "Hooks", "ChatFrame" })
 
-local ChatFramePlus = Private:GetAddon()
-local FontModule = ChatFramePlus:GetModule("Font")
+local CopyModule = Private.Addon:GetModule("Copy")
+local FontModule = Private.Addon:GetModule("Font")
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 local DatabaseUtils = Private.Utils.Database
@@ -27,6 +27,19 @@ local function handleSetChatWindowFontSize(self, chatFrame, fontSize)
 	LibStub("AceConfigRegistry-3.0"):NotifyChange(AddonName)
 end
 
+local function handleChatTabClick(chatTab, button)
+	if IsControlKeyDown() and button == "LeftButton" then
+		local chatFrameId = ChatFrameUtils.getChatFrameId(chatTab)
+		local chatFrame = ChatFrameUtils.getChatFrame(chatFrameId)
+		local copyTable = DatabaseUtils.getChatFramesTable(chatFrameId, "copy")
+
+		if copyTable.isEnabled then
+			CopyModule:ShowFrame(chatFrame)
+		end
+	end
+end
+
 function ChatFrameHooks:Init()
 	hooksecurefunc("FCF_SetChatWindowFontSize", handleSetChatWindowFontSize)
+	hooksecurefunc("FCF_Tab_OnClick", handleChatTabClick)
 end

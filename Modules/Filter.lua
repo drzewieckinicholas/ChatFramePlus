@@ -2,8 +2,7 @@ local format = string.format
 
 local _, Private = ...
 
-local ChatFramePlus = Private:GetAddon()
-local FilterModule = ChatFramePlus:NewModule("Filter")
+local FilterModule = Private.Addon:NewModule("Filter")
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 local DatabaseUtils = Private.Utils.Database

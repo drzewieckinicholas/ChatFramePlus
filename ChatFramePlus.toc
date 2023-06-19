@@ -17,6 +17,7 @@ Init\Init.lua
 Utils\Private.lua
 
 # Constants
+Constants\Copy.lua
 Constants\Filter.lua
 Constants\Font.lua
 
@@ -30,6 +31,7 @@ Utils\Font.lua
 Utils\Options.lua
 
 # Modules
+Modules\Copy.lua
 Modules\Filter.lua
 Modules\Font.lua
 
@@ -42,5 +44,6 @@ Core\Database.lua
 
 # Options
 Options\Options.lua
+Options\Copy.lua
 Options\Filter.lua
 Options\Font.lua

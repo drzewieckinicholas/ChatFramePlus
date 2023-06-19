@@ -1,3 +1,5 @@
+local insert = table.insert
+
 local _G = _G
 
 local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
@@ -16,12 +18,34 @@ function ChatFrameUtils.forEachChatFrame(callback)
 	end
 end
 
+function ChatFrameUtils.forEachChatFrameMessage(chatFrame, callback)
+	local numMessages = chatFrame:GetNumMessages()
+
+	for index = 1, numMessages do
+		local message = chatFrame:GetMessageInfo(index)
+
+		if message then
+			callback(message, index)
+		end
+	end
+end
+
 function ChatFrameUtils.getChatFrame(index)
 	return _G["ChatFrame" .. index]
 end
 
 function ChatFrameUtils.getChatFrameId(chatFrame)
 	return chatFrame and chatFrame:GetID()
+end
+
+function ChatFrameUtils.getChatFrameMessages(chatFrame)
+	local messages = {}
+
+	ChatFrameUtils.forEachChatFrameMessage(chatFrame, function(message)
+		insert(messages, message)
+	end)
+
+	return messages
 end
 
 function ChatFrameUtils.getChatFrameName(chatFrame)
