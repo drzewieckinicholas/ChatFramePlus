@@ -13,9 +13,16 @@ Libs\Libs.xml
 # Initialization
 Init\Init.lua
 
+# Constants
+Constants\Font.lua
+
 # Utils
 Utils\ChatFrame.lua
 
 # Core
 Core\Core.lua
 Core\Database.lua
+
+# Options
+Options\Options.lua
+Options\Font.lua

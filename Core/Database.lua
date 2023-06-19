@@ -1,6 +1,6 @@
 local _, Private = ...
 
-local ChatFrameUtils = Private:getTable({ "Utils", "ChatFrame" })
+local ChatFrameUtils = Private.Utils.ChatFrame
 
 local function createFontDatabaseDefaults()
 	return {

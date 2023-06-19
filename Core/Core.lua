@@ -6,6 +6,8 @@ function ChatFramePlus:OnInitialize()
 	print(AddonName .. ":OnInitialize")
 
 	Private.db = LibStub("AceDB-3.0"):New(AddonName .. "DB", Private:GetDatabaseDefaults(), true)
+
+	Private.Options:Init()
 end
 
 function ChatFramePlus:OnEnable()
