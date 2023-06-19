@@ -15,3 +15,7 @@ function DatabaseUtils.getTable(tableName)
 		return getTableByType(tableName, index, type)
 	end
 end
+
+function DatabaseUtils.getChatFramesTable(index, type)
+	return DatabaseUtils.getTable("chatFrames")(index, type)
+end

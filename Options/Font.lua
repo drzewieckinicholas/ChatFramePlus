@@ -10,11 +10,11 @@ local OptionsUtils = Private.Utils.Options
 local createAccessors = OptionsUtils.createAccessors
 
 function FontOptions.getFontOptions(chatFrame, index)
-	local fontTable = function(info)
-		return DatabaseUtils.getTable("chatFrames")(index, "font")
+	local fontTable = function(_)
+		return DatabaseUtils.getChatFramesTable(index, "font")
 	end
 
-	local updateFunc = function(info)
+	local updateFunc = function(_)
 		FontModule:UpdateFont(chatFrame)
 	end
 
