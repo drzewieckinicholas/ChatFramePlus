@@ -1,8 +1,12 @@
-local AceEvent = LibStub("AceEvent-3.0")
-
-local _, Private = ...
+local AddonName, Private = ...
 
 local ChatFrameHooks = Private:createTable({ "Hooks", "ChatFrame" })
+
+local ChatFramePlus = LibStub("AceAddon-3.0"):GetAddon(AddonName)
+local FontModule = ChatFramePlus:GetModule("Font")
+
+local ChatFrameUtils = Private.Utils.ChatFrame
+local DatabaseUtils = Private.Utils.Database
 
 local function handleSetChatWindowFontSize(self, chatFrame, fontSize)
 	if not chatFrame then
@@ -13,7 +17,14 @@ local function handleSetChatWindowFontSize(self, chatFrame, fontSize)
 		fontSize = self.value
 	end
 
-	AceEvent:SendMessage("ChatFramePlus_FontSizeChanged", chatFrame, fontSize)
+	local chatFrameId = ChatFrameUtils.getChatFrameId(chatFrame)
+	local fontTable = DatabaseUtils.getChatFramesTable(chatFrameId, "font")
+
+	fontTable.size = fontSize
+
+	FontModule:UpdateFont(chatFrame)
+
+	LibStub("AceConfigRegistry-3.0"):NotifyChange(AddonName)
 end
 
 function ChatFrameHooks:Init()
