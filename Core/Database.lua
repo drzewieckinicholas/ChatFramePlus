@@ -24,4 +24,6 @@ function Private:GetDatabaseDefaults()
 			font = fontDatabaseDefaults,
 		}
 	end)
+
+	return database
 end
