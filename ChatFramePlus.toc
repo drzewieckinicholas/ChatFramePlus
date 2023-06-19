@@ -13,6 +13,9 @@ Libs\Libs.xml
 # Initialization
 Init\Init.lua
 
+# Utils
+Utils\Private.lua
+
 # Constants
 Constants\Font.lua
 
