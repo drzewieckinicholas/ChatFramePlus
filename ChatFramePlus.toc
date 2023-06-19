@@ -18,6 +18,12 @@ Constants\Font.lua
 
 # Utils
 Utils\ChatFrame.lua
+Utils\Database.lua
+Utils\Font.lua
+Utils\Options.lua
+
+# Modules
+Modules\Font.lua
 
 # Core
 Core\Core.lua

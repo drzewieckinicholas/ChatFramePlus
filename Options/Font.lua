@@ -1,10 +1,27 @@
-local _, Private = ...
+local AddonName, Private = ...
 
 local FontOptions = Private:createTable({ "Options", "Font" })
 
+local FontModule = LibStub("AceAddon-3.0"):GetAddon(AddonName):GetModule("Font")
+
 local FontConstants = Private.Constants.Font
+local DatabaseUtils = Private.Utils.Database
+local OptionsUtils = Private.Utils.Options
+local createAccessors = OptionsUtils.createAccessors
 
 function FontOptions.getFontOptions(chatFrame, index)
+	local fontTable = function(info)
+		return DatabaseUtils.getTable("chatFrames")(index, "font")
+	end
+
+	local updateFunc = function(info)
+		FontModule:UpdateFont(chatFrame)
+	end
+
+	local getFontSize, setFontSize = createAccessors(fontTable, { "size" }, nil, nil, updateFunc)
+	local getFontName, setFontName = createAccessors(fontTable, { "name" }, nil, nil, updateFunc)
+	local getFontStyle, setFontStyle = createAccessors(fontTable, { "style" }, nil, nil, updateFunc)
+
 	return {
 		order = 1,
 		type = "group",
@@ -26,8 +43,8 @@ function FontOptions.getFontOptions(chatFrame, index)
 						max = FontConstants.SIZE_MAX,
 						step = FontConstants.SIZE_STEP,
 						width = "full",
-						get = function() end,
-						set = function() end,
+						get = getFontSize,
+						set = setFontSize,
 					},
 					fontName = {
 						order = 2,
@@ -36,8 +53,8 @@ function FontOptions.getFontOptions(chatFrame, index)
 						desc = "Select the font name",
 						values = FontConstants.NAMES,
 						width = "full",
-						get = function() end,
-						set = function() end,
+						get = getFontName,
+						set = setFontName,
 					},
 					fontStyle = {
 						order = 3,
@@ -46,8 +63,8 @@ function FontOptions.getFontOptions(chatFrame, index)
 						desc = "Select the font style",
 						values = FontConstants.STYLES,
 						width = "full",
-						get = function() end,
-						set = function() end,
+						get = getFontStyle,
+						set = setFontStyle,
 					},
 				},
 			},
