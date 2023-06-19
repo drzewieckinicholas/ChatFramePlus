@@ -1,6 +1,6 @@
 local _, Private = ...
 
-local FontUtils = Private.createTable(Private, { "Utils", "Font" })
+local FontUtils = Private:createTable({ "Utils", "Font" })
 
 function FontUtils.getFontName(fontTable)
 	return fontTable and fontTable.name
