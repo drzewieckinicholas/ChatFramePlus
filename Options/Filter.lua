@@ -62,7 +62,7 @@ function FilterOptions.getFilterOptions(index)
 		createAccessors(getFilterTable, { "filterWords" }, getFilterWordsAsString, setFilterWordsFromString)
 
 	return {
-		order = 2,
+		order = 3,
 		type = "group",
 		childGroups = "tab",
 		name = FilterModule.moduleName,

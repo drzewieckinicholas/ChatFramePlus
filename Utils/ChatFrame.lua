@@ -34,6 +34,10 @@ function ChatFrameUtils.getChatFrame(index)
 	return _G["ChatFrame" .. index]
 end
 
+function ChatFrameUtils.getChatFrameBackground(chatFrame)
+	return chatFrame and _G[ChatFrameUtils.getChatFrameName(chatFrame) .. "Background"]
+end
+
 function ChatFrameUtils.getChatFrameId(chatFrame)
 	return chatFrame and chatFrame:GetID()
 end

@@ -17,7 +17,7 @@ function CopyOptions.getCopyOptions(index)
 	local getCopyEnabled, setCopyEnabled = createAccessors(copyTable, { "isEnabled" })
 
 	return {
-		order = 1,
+		order = 2,
 		type = "group",
 		name = CopyModule.moduleName,
 		desc = "Options for copying chat messages",

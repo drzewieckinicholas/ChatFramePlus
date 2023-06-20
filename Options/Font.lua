@@ -21,11 +21,13 @@ function FontOptions.getFontOptions(chatFrame, index)
 	end
 
 	local getFontSize, setFontSize = createAccessors(fontTable, { "size" }, nil, nil, updateFunc)
+
 	local getFontName, setFontName = createAccessors(fontTable, { "name" }, nil, nil, updateFunc)
+
 	local getFontStyle, setFontStyle = createAccessors(fontTable, { "style" }, nil, nil, updateFunc)
 
 	return {
-		order = 3,
+		order = 4,
 		type = "group",
 		name = FontModule.moduleName,
 		desc = "Options for the chat frame font",
