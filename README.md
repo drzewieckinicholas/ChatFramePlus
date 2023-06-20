@@ -2,7 +2,7 @@
 
 # ChatFramePlus
 
-ChatFramePlus is an addon for World of Warcraft: Classic and Wrath of the Lich King: Classic that allows for further customization of chat frames.
+ChatFramePlus is an addon for World of Warcraft: Classic and Wrath of the Lich King: Classic that provides further customization of chat frames.
 
 ## Quick Start
 
@@ -11,7 +11,7 @@ ChatFramePlus options are available in the base World of Warcraft `Interface Opt
 ## Features
 
 * Copy chat messages by holding `Ctrl` and clicking `Left Mouse Button` on a chat tab
-* Filter out chat messages by providing filter words
+* Filter out chat messages using your provided filter words
 * Customize the name, size, and style of the font
 
 ## Techniques
