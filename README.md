@@ -2,7 +2,7 @@
 
 # ChatFramePlus
 
-ChatFramePlus is an addon for World of Warcraft: Classic and Wrath of the Lich King: Classic that provides further customization of chat frames.
+ChatFramePlus is an addon for World of Warcraft: Classic and Wrath of the Lich King: Classic that provides further customization for chat frames.
 
 ## Quick Start
 
