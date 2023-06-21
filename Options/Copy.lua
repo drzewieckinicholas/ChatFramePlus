@@ -1,3 +1,5 @@
+local concat = table.concat
+
 local _, Private = ...
 
 local CopyOptions = Private:CreateTable({ "Options", "Copy" })
@@ -32,7 +34,14 @@ function CopyOptions.getCopyOptions(index)
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
-						desc = "Toggle chat message copying on or off",
+						desc = function()
+							local descriptions = {
+								"Toggle chat message copying on or off",
+								"Hold Ctrl and left click on a chat tab to open the copy frame",
+							}
+
+							return concat(descriptions, "\n\n")
+						end,
 						width = "full",
 						get = getCopyEnabled,
 						set = setCopyEnabled,

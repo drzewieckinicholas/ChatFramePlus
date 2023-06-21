@@ -31,10 +31,13 @@ local function handleChatTabClick(chatTab, button)
 	if IsControlKeyDown() and button == "LeftButton" then
 		local chatFrameId = ChatFrameUtils.getChatFrameId(chatTab)
 		local chatFrame = ChatFrameUtils.getChatFrame(chatFrameId)
+		local chatTabName = ChatFrameUtils.getChatTabName(chatFrame)
 		local copyTable = DatabaseUtils.getChatFramesTable(chatFrameId, "copy")
 
 		if copyTable.isEnabled then
 			CopyModule:ShowFrame(chatFrame)
+		else
+			print(format("Copy is disabled for %s. You can enable it in the options.", chatTabName))
 		end
 	end
 end
