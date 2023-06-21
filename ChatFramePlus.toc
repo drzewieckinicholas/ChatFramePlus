@@ -1,11 +1,12 @@
-## Interface: 30401
+## Interface: 30402
 ## Interface-Classic: 11403
-## Interface-Wrath: 30401
+## Interface-Wrath: 30402
 ## Title: ChatFramePlus
 ## Author: Nicholas Drzewiecki
 ## Notes: Further customization for chat frames
 ## SavedVariables: ChatFramePlusDB
 ## Version: @project-version@
+## X-Curse-Project-ID: 877941
 
 # Libraries
 Libs\Libs.xml
