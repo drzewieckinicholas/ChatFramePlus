@@ -69,3 +69,14 @@ function ChatFrameUtils.getChatTabName(chatFrame)
 
 	return chatTab and chatTab:GetText()
 end
+
+function ChatFrameUtils.getChatTabTexture(chatFrame, textureSuffix)
+	if not chatFrame then
+		return
+	end
+
+	local chatFrameName = ChatFrameUtils.getChatFrameName(chatFrame)
+	local chatTabTexture = _G[chatFrameName .. textureSuffix]
+
+	return chatTabTexture
+end

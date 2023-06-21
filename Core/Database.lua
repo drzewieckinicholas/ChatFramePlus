@@ -36,6 +36,12 @@ local function createFontDatabaseDefaults()
 	}
 end
 
+local function createTabDatabaseDefaults()
+	return {
+		isBackgroundVisible = true,
+	}
+end
+
 function Private:GetDatabaseDefaults()
 	local database = {
 		profile = {
@@ -47,6 +53,7 @@ function Private:GetDatabaseDefaults()
 	local copyDatabaseDefaults = createCopyDatabaseDefaults()
 	local filterDatabaseDefaults = createFilterDatabaseDefaults()
 	local fontDatabaseDefaults = createFontDatabaseDefaults()
+	local tabDatabaseDefaults = createTabDatabaseDefaults()
 
 	ChatFrameUtils.forEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
@@ -54,6 +61,7 @@ function Private:GetDatabaseDefaults()
 			copy = copyDatabaseDefaults,
 			filter = filterDatabaseDefaults,
 			font = fontDatabaseDefaults,
+			tab = tabDatabaseDefaults,
 		}
 	end)
 

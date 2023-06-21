@@ -14,6 +14,7 @@ function ChatFramePlus:OnEnable()
 	ChatFramePlus:EnableModule("Border")
 	ChatFramePlus:EnableModule("Filter")
 	ChatFramePlus:EnableModule("Font")
+	ChatFramePlus:EnableModule("Tab")
 
 	ChatFrameHooks:Init()
 end

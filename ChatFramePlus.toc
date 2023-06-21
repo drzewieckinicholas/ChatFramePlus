@@ -21,6 +21,7 @@ Constants\Border.lua
 Constants\Copy.lua
 Constants\Filter.lua
 Constants\Font.lua
+Constants\Tab.lua
 
 # Utils
 Utils\ChatFrame.lua
@@ -36,6 +37,7 @@ Modules\Border.lua
 Modules\Copy.lua
 Modules\Filter.lua
 Modules\Font.lua
+Modules\Tab.lua
 
 # Hooks
 Hooks\ChatFrame.lua
@@ -50,3 +52,4 @@ Options\Border.lua
 Options\Copy.lua
 Options\Filter.lua
 Options\Font.lua
+Options\Tab.lua

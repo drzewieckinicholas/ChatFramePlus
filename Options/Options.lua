@@ -9,12 +9,14 @@ local function getChatFrameOptions(chatFrame, index)
 	local CopyOptions = Options.Copy
 	local FilterOptions = Options.Filter
 	local FontOptions = Options.Font
+	local TabOptions = Options.Tab
 
 	return {
 		border = BorderOptions.getBorderOptions(chatFrame, index),
 		copy = CopyOptions.getCopyOptions(index),
 		filter = FilterOptions.getFilterOptions(index),
 		font = FontOptions.getFontOptions(chatFrame, index),
+		tab = TabOptions.getTabOptions(chatFrame, index),
 	}
 end
 
