@@ -36,32 +36,26 @@ function Options:GetOptions()
 	}
 
 	ChatFrameUtils.forEachChatFrame(function(chatFrame, index)
-		if chatFrame then
-			local chatFrameName = ChatFrameUtils.getChatFrameName(chatFrame)
-			local chatTabName = ChatFrameUtils.getChatTabName(chatFrame)
+		local chatFrameName = ChatFrameUtils.getChatFrameName(chatFrame)
+		local chatTabName = ChatFrameUtils.getChatTabName(chatFrame)
 
-			options.args.chatFrames.args[chatFrameName] = {
-				order = index,
-				type = "group",
-				name = chatTabName,
-				args = getChatFrameOptions(chatFrame, index),
-			}
-		end
+		options.args.chatFrames.args[chatFrameName] = {
+			order = index,
+			type = "group",
+			name = chatTabName,
+			args = getChatFrameOptions(chatFrame, index),
+		}
 	end)
 
 	return options
 end
 
 function Options:RegisterOptionsTable()
-	local AceConfig = LibStub("AceConfig-3.0")
-
-	AceConfig:RegisterOptionsTable(AddonName, self:GetOptions())
+	LibStub("AceConfig-3.0"):RegisterOptionsTable(AddonName, self:GetOptions())
 end
 
 function Options:AddOptionsTable()
-	local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-
-	AceConfigDialog:AddToBlizOptions(AddonName, AddonName)
+	LibStub("AceConfigDialog-3.0"):AddToBlizOptions(AddonName, AddonName)
 end
 
 function Options:Init()

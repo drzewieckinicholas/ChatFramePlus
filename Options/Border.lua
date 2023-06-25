@@ -20,23 +20,23 @@ local function packColor(r, g, b, a)
 end
 
 function BorderOptions.getBorderOptions(chatFrame, index)
-	local borderTable = function(info)
+	local borderTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "border")
 	end
 
-	local updateFunc = function()
+	local handleUpdate = function()
 		BorderModule:UpdateFrame(chatFrame)
 	end
 
-	local getBorderEnabled, setBorderEnabled = createAccessors(borderTable, { "isEnabled" }, nil, nil, updateFunc)
+	local getBorderEnabled, setBorderEnabled = createAccessors(borderTable, { "isEnabled" }, nil, nil, handleUpdate)
 
-	local getBorderColor, setBorderColor = createAccessors(borderTable, { "color" }, unpackColor, packColor, updateFunc)
+	local getBorderColor, setBorderColor = createAccessors(borderTable, { "color" }, unpackColor, packColor, handleUpdate)
 
-	local getBorderMargin, setBorderMargin = createAccessors(borderTable, { "margin" }, nil, nil, updateFunc)
+	local getBorderMargin, setBorderMargin = createAccessors(borderTable, { "margin" }, nil, nil, handleUpdate)
 
-	local getBorderSize, setBorderSize = createAccessors(borderTable, { "size" }, nil, nil, updateFunc)
+	local getBorderSize, setBorderSize = createAccessors(borderTable, { "size" }, nil, nil, handleUpdate)
 
-	local getBorderTexture, setBorderTexture = createAccessors(borderTable, { "texture" }, nil, nil, updateFunc)
+	local getBorderTexture, setBorderTexture = createAccessors(borderTable, { "texture" }, nil, nil, handleUpdate)
 
 	return {
 		order = 1,

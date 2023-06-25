@@ -30,7 +30,6 @@ Utils\Database.lua
 Utils\String.lua
 Utils\Trie.lua
 Utils\Filter.lua
-Utils\Font.lua
 Utils\Options.lua
 
 # Modules

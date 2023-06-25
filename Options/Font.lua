@@ -16,15 +16,15 @@ function FontOptions.getFontOptions(chatFrame, index)
 		return DatabaseUtils.getChatFramesTable(index, "font")
 	end
 
-	local updateFunc = function()
+	local handleUpdate = function()
 		FontModule:UpdateFont(chatFrame)
 	end
 
-	local getFontSize, setFontSize = createAccessors(fontTable, { "size" }, nil, nil, updateFunc)
+	local getFontSize, setFontSize = createAccessors(fontTable, { "size" }, nil, nil, handleUpdate)
 
-	local getFontName, setFontName = createAccessors(fontTable, { "name" }, nil, nil, updateFunc)
+	local getFontName, setFontName = createAccessors(fontTable, { "name" }, nil, nil, handleUpdate)
 
-	local getFontStyle, setFontStyle = createAccessors(fontTable, { "style" }, nil, nil, updateFunc)
+	local getFontStyle, setFontStyle = createAccessors(fontTable, { "style" }, nil, nil, handleUpdate)
 
 	return {
 		order = 4,

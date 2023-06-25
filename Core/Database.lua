@@ -49,19 +49,13 @@ function Private:GetDatabaseDefaults()
 		},
 	}
 
-	local borderDatabaseDefaults = createBorderDatabaseDefaults()
-	local copyDatabaseDefaults = createCopyDatabaseDefaults()
-	local filterDatabaseDefaults = createFilterDatabaseDefaults()
-	local fontDatabaseDefaults = createFontDatabaseDefaults()
-	local tabDatabaseDefaults = createTabDatabaseDefaults()
-
 	ChatFrameUtils.forEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
-			border = borderDatabaseDefaults,
-			copy = copyDatabaseDefaults,
-			filter = filterDatabaseDefaults,
-			font = fontDatabaseDefaults,
-			tab = tabDatabaseDefaults,
+			border = createBorderDatabaseDefaults(),
+			copy = createCopyDatabaseDefaults(),
+			filter = createFilterDatabaseDefaults(),
+			font = createFontDatabaseDefaults(),
+			tab = createTabDatabaseDefaults(),
 		}
 	end)
 

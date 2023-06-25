@@ -10,16 +10,16 @@ local OptionsUtils = Private.Utils.Options
 local createAccessors = OptionsUtils.createAccessors
 
 function TabOptions.getTabOptions(chatFrame, index)
-	local tabTable = function(info)
+	local tabTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "tab")
 	end
 
-	local updateFunc = function()
+	local handleUpdate = function()
 		TabModule:UpdateTab(chatFrame)
 	end
 
 	local getBackgroundVisible, setBackgroundVisible =
-		createAccessors(tabTable, { "isBackgroundVisible" }, nil, nil, updateFunc)
+		createAccessors(tabTable, { "isBackgroundVisible" }, nil, nil, handleUpdate)
 
 	return {
 		order = 5,

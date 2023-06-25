@@ -19,11 +19,12 @@ function FilterUtils.shouldFilterChatMessage(filterTable, message)
 	end
 
 	local filterWordsTrie = filterTable.filterWordsTrie
-	local exactMatch = filterTable.isExactMatch
-	local sanitizedMessage = StringUtils.sanitize(message)
+	local isExactMatch = filterTable.isExactMatch
 
-	for word in gmatch(sanitizedMessage, "%S+") do
-		if TrieUtils.searchTrie(filterWordsTrie, word, exactMatch) then
+	message = StringUtils.sanitize(message)
+
+	for word in gmatch(message, "%S+") do
+		if TrieUtils.searchTrie(filterWordsTrie, word, isExactMatch) then
 			return true
 		end
 	end

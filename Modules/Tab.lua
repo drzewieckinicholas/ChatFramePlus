@@ -10,14 +10,14 @@ local ChatFrameUtils = Private.Utils.ChatFrame
 local DatabaseUtils = Private.Utils.Database
 
 local chatTabTextures = setmetatable({}, {
-	__index = function(t, chatFrame)
+	__index = function(texturesCache, chatFrame)
 		local textures = {}
 
 		for _, texture in ipairs(TabConstants.TEXTURES) do
 			textures[texture] = ChatFrameUtils.getChatTabTexture(chatFrame, texture)
 		end
 
-		t[chatFrame] = textures
+		texturesCache[chatFrame] = textures
 
 		return textures
 	end,
