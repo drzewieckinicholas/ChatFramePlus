@@ -19,7 +19,7 @@ local function packColor(r, g, b, a)
 	return { r = r, g = g, b = b, a = a }
 end
 
-function BorderOptions.getBorderOptions(chatFrame, index)
+function BorderOptions.getOptionsForFrame(chatFrame, index)
 	local borderTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "border")
 	end

@@ -11,7 +11,7 @@ local OptionsUtils = Private.Utils.Options
 
 local createAccessors = OptionsUtils.createAccessors
 
-function CopyOptions.getCopyOptions(index)
+function CopyOptions.getOptionsForFrame(index)
 	local copyTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "copy")
 	end
@@ -19,7 +19,7 @@ function CopyOptions.getCopyOptions(index)
 	local getCopyEnabled, setCopyEnabled = createAccessors(copyTable, { "isEnabled" })
 
 	return {
-		order = 2,
+		order = 3,
 		type = "group",
 		name = CopyModule.moduleName,
 		desc = "Options for copying chat messages",

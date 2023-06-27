@@ -9,7 +9,7 @@ local OptionsUtils = Private.Utils.Options
 
 local createAccessors = OptionsUtils.createAccessors
 
-function TabOptions.getTabOptions(chatFrame, index)
+function TabOptions.getOptionsForFrame(chatFrame, index)
 	local tabTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "tab")
 	end
@@ -22,7 +22,7 @@ function TabOptions.getTabOptions(chatFrame, index)
 		createAccessors(tabTable, { "isBackgroundVisible" }, nil, nil, handleUpdate)
 
 	return {
-		order = 5,
+		order = 6,
 		type = "group",
 		name = TabModule.moduleName,
 		desc = "Options for the chat frame tab",

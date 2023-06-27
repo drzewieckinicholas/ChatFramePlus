@@ -30,7 +30,7 @@ local function processFilterWords(value)
 	return filterWords, filterWordsTrie
 end
 
-function FilterOptions.getFilterOptions(index)
+function FilterOptions.getOptionsForFrame(index)
 	local getFilterTable = function()
 		return DatabaseUtils.getChatFramesTable(index, "filter")
 	end
@@ -62,7 +62,7 @@ function FilterOptions.getFilterOptions(index)
 		createAccessors(getFilterTable, { "filterWords" }, getFilterWordsAsString, setFilterWordsFromString)
 
 	return {
-		order = 3,
+		order = 4,
 		type = "group",
 		childGroups = "tab",
 		name = FilterModule.moduleName,

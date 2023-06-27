@@ -2,7 +2,7 @@ local _, Private = ...
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 
-local function createBorderDatabaseDefaults()
+local function getBorderDefaultsForFrame()
 	return {
 		color = { r = 1, g = 1, b = 1, a = 1 },
 		margin = 3,
@@ -12,13 +12,21 @@ local function createBorderDatabaseDefaults()
 	}
 end
 
-local function createCopyDatabaseDefaults()
+local function getButtonDefaultsForFrame()
+	return {
+		isBottomButtonVisible = true,
+		isDownButtonVisible = true,
+		isUpButtonVisible = true,
+	}
+end
+
+local function getCopyDefaultsForFrame()
 	return {
 		isEnabled = false,
 	}
 end
 
-local function createFilterDatabaseDefaults()
+local function getFilterDefaultsForFrame()
 	return {
 		filterWords = {},
 		filterWordsTrie = nil,
@@ -28,7 +36,7 @@ local function createFilterDatabaseDefaults()
 	}
 end
 
-local function createFontDatabaseDefaults()
+local function getFontDefaultsForFrame()
 	return {
 		name = "Fonts\\ARIALN.TTF",
 		size = 14,
@@ -36,7 +44,7 @@ local function createFontDatabaseDefaults()
 	}
 end
 
-local function createTabDatabaseDefaults()
+local function getTabDefaultsForFrame()
 	return {
 		isBackgroundVisible = true,
 	}
@@ -51,11 +59,12 @@ function Private:GetDatabaseDefaults()
 
 	ChatFrameUtils.forEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
-			border = createBorderDatabaseDefaults(),
-			copy = createCopyDatabaseDefaults(),
-			filter = createFilterDatabaseDefaults(),
-			font = createFontDatabaseDefaults(),
-			tab = createTabDatabaseDefaults(),
+			border = getBorderDefaultsForFrame(),
+			button = getButtonDefaultsForFrame(),
+			copy = getCopyDefaultsForFrame(),
+			filter = getFilterDefaultsForFrame(),
+			font = getFontDefaultsForFrame(),
+			tab = getTabDefaultsForFrame(),
 		}
 	end)
 

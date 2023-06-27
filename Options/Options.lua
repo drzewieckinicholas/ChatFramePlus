@@ -4,19 +4,21 @@ local Options = Private:CreateTable({ "Options" })
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 
-local function getChatFrameOptions(chatFrame, index)
+local function getOptionsForChatFrames(chatFrame, index)
 	local BorderOptions = Options.Border
+	local ButtonOptions = Options.Button
 	local CopyOptions = Options.Copy
 	local FilterOptions = Options.Filter
 	local FontOptions = Options.Font
 	local TabOptions = Options.Tab
 
 	return {
-		border = BorderOptions.getBorderOptions(chatFrame, index),
-		copy = CopyOptions.getCopyOptions(index),
-		filter = FilterOptions.getFilterOptions(index),
-		font = FontOptions.getFontOptions(chatFrame, index),
-		tab = TabOptions.getTabOptions(chatFrame, index),
+		border = BorderOptions.getOptionsForFrame(chatFrame, index),
+		button = ButtonOptions.getOptionsForFrame(chatFrame, index),
+		copy = CopyOptions.getOptionsForFrame(index),
+		filter = FilterOptions.getOptionsForFrame(index),
+		font = FontOptions.getOptionsForFrame(chatFrame, index),
+		tab = TabOptions.getOptionsForFrame(chatFrame, index),
 	}
 end
 
@@ -43,7 +45,7 @@ function Options:GetOptions()
 			order = index,
 			type = "group",
 			name = chatTabName,
-			args = getChatFrameOptions(chatFrame, index),
+			args = getOptionsForChatFrames(chatFrame, index),
 		}
 	end)
 
