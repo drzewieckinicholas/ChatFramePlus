@@ -2,69 +2,65 @@ local _, Private = ...
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 
-local function getBorderDefaultsForFrame()
-	return {
-		color = { r = 1, g = 1, b = 1, a = 1 },
-		margin = 3,
-		size = 12,
-		texture = "Interface\\Tooltips\\UI-Tooltip-Border",
-		isEnabled = false,
-	}
-end
+local borderDefaultsForFrame = {
+	color = { r = 1, g = 1, b = 1, a = 1 },
+	margin = 3,
+	size = 12,
+	texture = "Interface\\Tooltips\\UI-Tooltip-Border",
+	isEnabled = false,
+}
 
-local function getButtonDefaultsForFrame()
-	return {
-		isBottomButtonVisible = true,
-		isDownButtonVisible = true,
-		isUpButtonVisible = true,
-	}
-end
+local buttonDefaultsForChat = {
+	isChannelButtonVisible = true,
+	isMenuButtonVisible = true,
+}
 
-local function getCopyDefaultsForFrame()
-	return {
-		isEnabled = false,
-	}
-end
+local buttonDefaultsForFrame = {
+	isBottomButtonVisible = true,
+	isDownButtonVisible = true,
+	isUpButtonVisible = true,
+}
 
-local function getFilterDefaultsForFrame()
-	return {
-		filterWords = {},
-		filterWordsTrie = nil,
-		isEnabled = false,
-		isExactMatch = false,
-		isShowFilteredMessages = false,
-	}
-end
+local copyDefaultsForFrame = {
+	isEnabled = false,
+}
 
-local function getFontDefaultsForFrame()
-	return {
-		name = "Fonts\\ARIALN.TTF",
-		size = 14,
-		style = "",
-	}
-end
+local filterDefaultsForFrame = {
+	filterWords = {},
+	filterWordsTrie = nil,
+	isEnabled = false,
+	isExactMatch = false,
+	isShowFilteredMessages = false,
+}
 
-local function getTabDefaultsForFrame()
-	return {
-		isBackgroundVisible = true,
-	}
-end
+local fontDefaultsForFrame = {
+	name = "Fonts\\ARIALN.TTF",
+	size = 14,
+	style = "",
+}
+
+local tabDefaultsForFrame = {
+	isBackgroundVisible = true,
+}
 
 function Private:GetDatabaseDefaults()
 	local database = {
 		profile = {
+			chat = {
+				button = buttonDefaultsForChat,
+			},
 			chatFrames = {},
 		},
 	}
 
 	ChatFrameUtils.forEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
-			border = getBorderDefaultsForFrame(),
-			button = getButtonDefaultsForFrame(),
-			copy = getCopyDefaultsForFrame(),
-			filter = getFilterDefaultsForFrame(),
-			font = getFontDefaultsForFrame(),
-			tab = getTabDefaultsForFrame(),
+			border = borderDefaultsForFrame,
+			button = buttonDefaultsForFrame,
+			copy = copyDefaultsForFrame,
+			filter = filterDefaultsForFrame,
+			font = fontDefaultsForFrame,
+			tab = tabDefaultsForFrame,
 		}
 	end)
 

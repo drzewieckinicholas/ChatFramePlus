@@ -10,11 +10,12 @@ ChatFramePlus options are available in the base World of Warcraft `Interface Opt
 
 ## Features
 
-* Add and customize borders
-* Copy chat messages by holding `Ctrl` and clicking `Left Mouse Button` on a chat tab
-* Filter out chat messages using your provided filter words
-* Customize the name, size, and style of the font
-* Customize tabs
+- Customize border appearance and visibility
+- Customize button visibility
+- Copy chat messages
+- Filter out chat messages using your provided filter words
+- Customize font appearance
+- Customize tab visibility
 
 ## Techniques
 

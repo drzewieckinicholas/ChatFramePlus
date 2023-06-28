@@ -4,7 +4,15 @@ local Options = Private:CreateTable({ "Options" })
 
 local ChatFrameUtils = Private.Utils.ChatFrame
 
-local function getOptionsForChatFrames(chatFrame, index)
+local function getOptionsForChat()
+	local ButtonOptions = Options.Button
+
+	return {
+		button = ButtonOptions.getOptionsForChat(),
+	}
+end
+
+local function getOptionsForFrame(chatFrame, index)
 	local BorderOptions = Options.Border
 	local ButtonOptions = Options.Button
 	local CopyOptions = Options.Copy
@@ -27,8 +35,15 @@ function Options:GetOptions()
 		type = "group",
 		name = AddonName,
 		args = {
-			chatFrames = {
+			chat = {
 				order = 1,
+				type = "group",
+				name = "Chat",
+				desc = "Options for the chat",
+				args = getOptionsForChat(),
+			},
+			chatFrames = {
+				order = 2,
 				type = "group",
 				name = "Chat Frames",
 				desc = "Options for each chat frame",
@@ -45,7 +60,7 @@ function Options:GetOptions()
 			order = index,
 			type = "group",
 			name = chatTabName,
-			args = getOptionsForChatFrames(chatFrame, index),
+			args = getOptionsForFrame(chatFrame, index),
 		}
 	end)
 

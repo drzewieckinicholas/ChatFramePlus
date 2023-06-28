@@ -15,20 +15,28 @@ local buttonTables = setmetatable({}, {
 	end,
 })
 
-function ButtonModule:UpdateButtonVisibilityForFrame(chatFrame, buttonToUpdate)
-	local chatFrameId = ChatFrameUtils.getChatFrameId(chatFrame)
+function ButtonModule:UpdateButtonVisibility(chatFrame, buttonToUpdate)
+	local chatFrameId = chatFrame and ChatFrameUtils.getChatFrameId(chatFrame)
 
 	local buttons = {
+		channelButton = {
+			button = ChatFrameChannelButton,
+			key = "isChannelButtonVisible",
+		},
+		menuButton = {
+			button = ChatFrameMenuButton,
+			key = "isMenuButtonVisible",
+		},
 		bottomButton = {
-			button = chatFrame.buttonFrame.bottomButton,
+			button = chatFrame and chatFrame.buttonFrame.bottomButton,
 			key = "isBottomButtonVisible",
 		},
 		downButton = {
-			button = chatFrame.buttonFrame.downButton,
+			button = chatFrame and chatFrame.buttonFrame.downButton,
 			key = "isDownButtonVisible",
 		},
 		upButton = {
-			button = chatFrame.buttonFrame.upButton,
+			button = chatFrame and chatFrame.buttonFrame.upButton,
 			key = "isUpButtonVisible",
 		},
 	}
@@ -36,20 +44,23 @@ function ButtonModule:UpdateButtonVisibilityForFrame(chatFrame, buttonToUpdate)
 	local buttonInfo = buttons[buttonToUpdate]
 
 	if buttonInfo then
-		local buttonTable = buttonTables[chatFrameId]
+		local buttonTable = chatFrameId and buttonTables[chatFrameId] or DatabaseUtils.getChatTable("button")
 
 		buttonInfo.button:SetShown(buttonTable[buttonInfo.key])
 	end
 end
 
-function ButtonModule:UpdateAllButtonVisibilityForFrame(chatFrame)
-	self:UpdateButtonVisibilityForFrame(chatFrame, "bottomButton")
-	self:UpdateButtonVisibilityForFrame(chatFrame, "downButton")
-	self:UpdateButtonVisibilityForFrame(chatFrame, "upButton")
+function ButtonModule:UpdateFrameButtonVisibility(chatFrame)
+	self:UpdateButtonVisibility(chatFrame, "bottomButton")
+	self:UpdateButtonVisibility(chatFrame, "downButton")
+	self:UpdateButtonVisibility(chatFrame, "upButton")
 end
 
 function ButtonModule:OnEnable()
+	self:UpdateButtonVisibility(nil, "channelButton")
+	self:UpdateButtonVisibility(nil, "menuButton")
+
 	ChatFrameUtils.forEachChatFrame(function(chatFrame)
-		self:UpdateAllButtonVisibilityForFrame(chatFrame)
+		self:UpdateFrameButtonVisibility(chatFrame)
 	end)
 end
