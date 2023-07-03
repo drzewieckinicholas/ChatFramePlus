@@ -1,16 +1,14 @@
-local insert = table.insert
+--- @class Private
+local Private = select(2, ...)
 
-local _G = _G
+--- @class ChatFrameUtils
+local ChatFrameUtils = {}
 
-local NUM_CHAT_WINDOWS = NUM_CHAT_WINDOWS
-
-local _, Private = ...
-
-local ChatFrameUtils = Private:CreateTable({ "Utils", "ChatFrame" })
-
-function ChatFrameUtils.forEachChatFrame(callback)
+--- Calls the callback function for each chat frame.
+--- @param callback function
+function ChatFrameUtils:ForEachChatFrame(callback)
 	for index = 1, NUM_CHAT_WINDOWS do
-		local chatFrame = ChatFrameUtils.getChatFrame(index)
+		local chatFrame = self:GetChatFrame(index)
 
 		if chatFrame then
 			callback(chatFrame, index)
@@ -18,7 +16,10 @@ function ChatFrameUtils.forEachChatFrame(callback)
 	end
 end
 
-function ChatFrameUtils.forEachChatFrameMessage(chatFrame, callback)
+--- Calls the callback function for each chat frame message.
+--- @param chatFrame table
+--- @param callback function
+function ChatFrameUtils:ForEachChatFrameMessage(chatFrame, callback)
 	local numMessages = chatFrame:GetNumMessages()
 
 	for index = 1, numMessages do
@@ -30,53 +31,80 @@ function ChatFrameUtils.forEachChatFrameMessage(chatFrame, callback)
 	end
 end
 
-function ChatFrameUtils.getChatFrame(index)
+--- Returns a chat frame table e.g. ChatFrame1
+--- @param index number
+--- @return table
+function ChatFrameUtils:GetChatFrame(index)
 	return _G["ChatFrame" .. index]
 end
 
-function ChatFrameUtils.getChatFrameBackground(chatFrame)
-	return chatFrame and _G[ChatFrameUtils.getChatFrameName(chatFrame) .. "Background"]
+--- Returns a chat frame background e.g. ChatFrame1Background
+--- @param chatFrame table
+--- @return table
+function ChatFrameUtils:GetChatFrameBackground(chatFrame)
+	return chatFrame and _G[self:GetChatFrameName(chatFrame) .. "Background"]
 end
 
-function ChatFrameUtils.getChatFrameId(chatFrame)
+--- Returns a chat frame id e.g. 1
+--- @param chatFrame table
+--- @return number
+function ChatFrameUtils:GetChatFrameId(chatFrame)
 	return chatFrame and chatFrame:GetID()
 end
 
-function ChatFrameUtils.getChatFrameMessages(chatFrame)
+--- Returns a table of chat frame messages e.g. { "a", "b" }
+--- @param chatFrame table
+--- @return table
+function ChatFrameUtils:GetChatFrameMessages(chatFrame)
 	local messages = {}
 
-	ChatFrameUtils.forEachChatFrameMessage(chatFrame, function(message)
-		insert(messages, message)
+	self:ForEachChatFrameMessage(chatFrame, function(message)
+		table.insert(messages, message)
 	end)
 
 	return messages
 end
 
-function ChatFrameUtils.getChatFrameName(chatFrame)
+--- Returns a chat frame name e.g. ChatFrame1
+--- @param chatFrame table
+--- @return string
+function ChatFrameUtils:GetChatFrameName(chatFrame)
 	return chatFrame and chatFrame:GetName()
 end
 
-function ChatFrameUtils.getChatTab(chatFrame)
-	return chatFrame and _G[ChatFrameUtils.getChatFrameName(chatFrame) .. "Tab"]
+--- Returns a chat tab table e.g. ChatFrame1Tab
+--- @param chatFrame table
+--- @return table
+function ChatFrameUtils:GetChatTab(chatFrame)
+	return chatFrame and _G[self:GetChatFrameName(chatFrame) .. "Tab"]
 end
 
-function ChatFrameUtils.getChatTabName(chatFrame)
+--- Returns a chat tab name e.g. Combat Log
+--- @param chatFrame table
+--- @return string?
+function ChatFrameUtils:GetChatTabName(chatFrame)
 	if not chatFrame then
 		return
 	end
 
-	local chatTab = ChatFrameUtils.getChatTab(chatFrame)
+	local chatTab = self:GetChatTab(chatFrame)
 
 	return chatTab and chatTab:GetText()
 end
 
-function ChatFrameUtils.getChatTabTexture(chatFrame, textureSuffix)
+--- Returns a chat tab texture e.g. ChatFrame1TabLeft
+--- @param chatFrame table
+--- @param textureSuffix string
+--- @return table?
+function ChatFrameUtils:GetChatTabTexture(chatFrame, textureSuffix)
 	if not chatFrame then
 		return
 	end
 
-	local chatFrameName = ChatFrameUtils.getChatFrameName(chatFrame)
+	local chatFrameName = self:GetChatFrameName(chatFrame)
 	local chatTabTexture = _G[chatFrameName .. textureSuffix]
 
 	return chatTabTexture
 end
+
+Private.ChatFrameUtils = ChatFrameUtils

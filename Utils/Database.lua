@@ -1,11 +1,17 @@
-local _, Private = ...
+--- @class Private
+local Private = select(2, ...)
 
-local DatabaseUtils = Private:CreateTable({ "Utils", "Database" })
+--- @class DatabaseUtils
+local DatabaseUtils = {}
 
-function DatabaseUtils.getChatTable(key)
-	return Private:GetTable({ "db", "profile", "chat", key })
+--- Returns a chat frame database table.
+--- @param index number
+--- @param key string
+function DatabaseUtils.GetChatFramesTable(index, key)
+	assert(type(index) == "number", "bad argument #1 expected number got " .. type(index))
+	assert(type(key) == "string", "bad argument #2 expected string got " .. type(key))
+
+	return Private.db.profile.chatFrames[index][key]
 end
 
-function DatabaseUtils.getChatFramesTable(chatFrameId, key)
-	return Private:GetTable({ "db", "profile", "chatFrames", chatFrameId, key })
-end
+Private.DatabaseUtils = DatabaseUtils

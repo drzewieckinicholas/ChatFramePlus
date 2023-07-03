@@ -14,9 +14,6 @@ Libs\Libs.xml
 # Initialization
 Init\Init.lua
 
-# Utils
-Utils\Private.lua
-
 # Constants
 Constants\Border.lua
 Constants\Copy.lua
@@ -29,12 +26,9 @@ Utils\ChatFrame.lua
 Utils\Database.lua
 Utils\String.lua
 Utils\Trie.lua
-Utils\Filter.lua
-Utils\Options.lua
 
 # Modules
 Modules\Border.lua
-Modules\Button.lua
 Modules\Copy.lua
 Modules\Filter.lua
 Modules\Font.lua
@@ -50,7 +44,6 @@ Core\Database.lua
 # Options
 Options\Options.lua
 Options\Border.lua
-Options\Button.lua
 Options\Copy.lua
 Options\Filter.lua
 Options\Font.lua

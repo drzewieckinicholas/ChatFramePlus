@@ -1,49 +1,47 @@
-local AddonName, Private = ...
+local AceConfig = LibStub("AceConfig-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
-local Options = Private:CreateTable({ "Options" })
+--- @type string
+local AddonName = select(1, ...)
 
-local ChatFrameUtils = Private.Utils.ChatFrame
+--- @class Private
+local Private = select(2, ...)
 
-local function getOptionsForChat()
-	local ButtonOptions = Options.Button
+--- @class Options
+local Options = {}
+
+--- @class ChatFrameUtils
+local ChatFrameUtils = Private.ChatFrameUtils
+
+--- Creates an options table for a chat frame.
+--- @param chatFrame table
+--- @param index number
+--- @return table
+local function createOptionsTableForChatFrame(chatFrame, index)
+	local BorderOptions = Private.BorderOptions
+	local CopyOptions = Private.CopyOptions
+	local FilterOptions = Private.FilterOptions
+	local FontOptions = Private.FontOptions
+	local TabOptions = Private.TabOptions
 
 	return {
-		button = ButtonOptions.getOptionsForChat(),
+		border = BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index),
+		copy = CopyOptions:CreateOptionsTableForChatFrame(chatFrame, index),
+		filter = FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index),
+		font = FontOptions:CreateOptionsTableForChatFrame(chatFrame, index),
+		tab = TabOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 	}
 end
 
-local function getOptionsForFrame(chatFrame, index)
-	local BorderOptions = Options.Border
-	local ButtonOptions = Options.Button
-	local CopyOptions = Options.Copy
-	local FilterOptions = Options.Filter
-	local FontOptions = Options.Font
-	local TabOptions = Options.Tab
-
-	return {
-		border = BorderOptions.getOptionsForFrame(chatFrame, index),
-		button = ButtonOptions.getOptionsForFrame(chatFrame, index),
-		copy = CopyOptions.getOptionsForFrame(index),
-		filter = FilterOptions.getOptionsForFrame(index),
-		font = FontOptions.getOptionsForFrame(chatFrame, index),
-		tab = TabOptions.getOptionsForFrame(chatFrame, index),
-	}
-end
-
-function Options:GetOptions()
+--- Creates a base options table for the addon.
+--- @return table
+local function createOptionsTable()
 	local options = {
 		type = "group",
 		name = AddonName,
 		args = {
-			chat = {
-				order = 1,
-				type = "group",
-				name = "Chat",
-				desc = "Options for the chat",
-				args = getOptionsForChat(),
-			},
 			chatFrames = {
-				order = 2,
+				order = 1,
 				type = "group",
 				name = "Chat Frames",
 				desc = "Options for each chat frame",
@@ -52,30 +50,24 @@ function Options:GetOptions()
 		},
 	}
 
-	ChatFrameUtils.forEachChatFrame(function(chatFrame, index)
-		local chatFrameName = ChatFrameUtils.getChatFrameName(chatFrame)
-		local chatTabName = ChatFrameUtils.getChatTabName(chatFrame)
+	ChatFrameUtils:ForEachChatFrame(function(chatFrame, index)
+		local chatFrameName = ChatFrameUtils:GetChatFrameName(chatFrame)
+		local chatTabName = ChatFrameUtils:GetChatTabName(chatFrame)
 
 		options.args.chatFrames.args[chatFrameName] = {
 			order = index,
 			type = "group",
 			name = chatTabName,
-			args = getOptionsForFrame(chatFrame, index),
+			args = createOptionsTableForChatFrame(chatFrame, index),
 		}
 	end)
 
 	return options
 end
 
-function Options:RegisterOptionsTable()
-	LibStub("AceConfig-3.0"):RegisterOptionsTable(AddonName, self:GetOptions())
+function Options:Initialize()
+	AceConfig:RegisterOptionsTable(AddonName, createOptionsTable())
+	AceConfigDialog:AddToBlizOptions(AddonName, AddonName)
 end
 
-function Options:AddOptionsTable()
-	LibStub("AceConfigDialog-3.0"):AddToBlizOptions(AddonName, AddonName)
-end
-
-function Options:Init()
-	self:RegisterOptionsTable()
-	self:AddOptionsTable()
-end
+Private.Options = Options

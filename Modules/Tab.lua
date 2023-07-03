@@ -1,48 +1,53 @@
-local ipairs, pairs = ipairs, pairs
+--- @class Private
+local Private = select(2, ...)
 
-local _, Private = ...
-
+--- @class TabModule: AceModule
 local TabModule = Private.Addon:NewModule("Tab")
 
-local TabConstants = Private.Constants.Tab
+--- @class TabConstants
+local TabConstants = Private.TabConstants
 
-local ChatFrameUtils = Private.Utils.ChatFrame
-local DatabaseUtils = Private.Utils.Database
+--- @class ChatFrameUtils
+local ChatFrameUtils = Private.ChatFrameUtils
 
-local chatTabTextures = setmetatable({}, {
-	__index = function(texturesCache, chatFrame)
-		local textures = {}
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
 
-		for _, texture in ipairs(TabConstants.TEXTURES) do
-			textures[texture] = ChatFrameUtils.getChatTabTexture(chatFrame, texture)
-		end
+--- @type table
+local textures = {}
 
-		texturesCache[chatFrame] = textures
+--- Updates the visibility of the textures for a chat tab.
+--- @param texturesForFrame table
+--- @param isBackgroundVisible boolean
+local function updateTexturesVisibility(texturesForFrame, isBackgroundVisible)
+	local alpha = isBackgroundVisible and 1 or 0
 
-		return textures
-	end,
-})
-
-local function updateTexturesVisibility(textures, isVisible)
-	local alpha = isVisible and 1 or 0
-
-	for _, textureFrame in pairs(textures) do
-		if textureFrame then
-			textureFrame:SetAlpha(alpha)
-		end
+	for _, texture in pairs(texturesForFrame) do
+		texture:SetAlpha(alpha)
 	end
 end
 
+--- Update the tab properties for a chat frame.
+--- @param chatFrame table
 function TabModule:UpdateTab(chatFrame)
-	local chatFrameId = ChatFrameUtils.getChatFrameId(chatFrame)
-	local tabTable = DatabaseUtils.getChatFramesTable(chatFrameId, "tab")
-	local tabTextures = chatTabTextures[chatFrame]
+	local chatFrameId = ChatFrameUtils:GetChatFrameId(chatFrame)
+	local databaseTab = DatabaseUtils.GetChatFramesTable(chatFrameId, "tab")
 
-	updateTexturesVisibility(tabTextures, tabTable.isBackgroundVisible)
+	updateTexturesVisibility(textures[chatFrame], databaseTab.isBackgroundVisible)
+end
+
+function TabModule:OnInitialize()
+	ChatFrameUtils:ForEachChatFrame(function(chatFrame)
+		textures[chatFrame] = textures[chatFrame] or {}
+
+		for _, textureSuffix in ipairs(TabConstants.TEXTURES) do
+			textures[chatFrame][textureSuffix] = ChatFrameUtils:GetChatTabTexture(chatFrame, textureSuffix)
+		end
+	end)
 end
 
 function TabModule:OnEnable()
-	ChatFrameUtils.forEachChatFrame(function(chatFrame)
+	ChatFrameUtils:ForEachChatFrame(function(chatFrame)
 		self:UpdateTab(chatFrame)
 	end)
 end

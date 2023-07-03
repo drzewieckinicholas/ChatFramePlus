@@ -1,7 +1,10 @@
-local _, Private = ...
+--- @class Private
+local Private = select(2, ...)
 
-local TabConstants = Private:CreateTable({ "Constants", "Tab" })
+--- @class TabConstants
+local TabConstants = {}
 
+--- @type table<string>
 TabConstants.TEXTURES = {
 	"TabLeft",
 	"TabMiddle",
@@ -13,3 +16,5 @@ TabConstants.TEXTURES = {
 	"TabSelectedMiddle",
 	"TabSelectedRight",
 }
+
+Private.TabConstants = TabConstants

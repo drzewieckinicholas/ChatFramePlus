@@ -1,60 +1,73 @@
-local _, Private = ...
+--- @class Private
+local Private = select(2, ...)
 
-local TrieUtils = Private:CreateTable({ "Utils", "Trie" })
+--- @class TrieUtils
+local TrieUtils = {}
 
-function TrieUtils.newTrie()
+--- Returns a new trie.
+--- @return table
+function TrieUtils:Create()
 	return {
 		isWordComplete = false,
 	}
 end
 
-function TrieUtils.insertTrie(currentTrie, wordToInsert)
-	if not currentTrie then
-		currentTrie = TrieUtils.newTrie()
+--- Inserts a word into the trie.
+--- @param trie table
+--- @param word string
+--- @return table
+function TrieUtils:InsertWord(trie, word)
+	if not trie then
+		trie = self:Create()
 	end
 
-	local currentNode = currentTrie
-	local wordLength = #wordToInsert
+	local node = trie
 
-	for charIndex = 1, wordLength do
-		local currentChar = wordToInsert:sub(charIndex, charIndex)
-		local nextNode = currentNode[currentChar]
+	for charIndex = 1, #word do
+		local currentChar = word:sub(charIndex, charIndex)
+		local nextNode = node[currentChar]
 
 		if not nextNode then
-			nextNode = {}
-			currentNode[currentChar] = nextNode
+			nextNode = self:Create()
+			node[currentChar] = nextNode
 		end
 
-		currentNode = nextNode
+		node = nextNode
 	end
 
-	currentNode.isWordComplete = true
+	node.isWordComplete = true
 
-	return currentTrie
+	return trie
 end
 
-function TrieUtils.searchTrie(currentTrie, wordToSearch, exactMatch)
-	if not currentTrie then
+--- Returns true if the trie contains the word.
+--- @param trie table
+--- @param word string
+--- @param isExactMatch boolean
+--- @return boolean
+function TrieUtils:ContainsWord(trie, word, isExactMatch)
+	if not trie then
 		return false
 	end
 
-	local currentNode = currentTrie
-	local wordLength = #wordToSearch
+	local node = trie
 
-	for charIndex = 1, wordLength do
-		local currentChar = wordToSearch:sub(charIndex, charIndex)
-		local nextNode = currentNode[currentChar]
+	for charIndex = 1, #word do
+		local currentChar = word:sub(charIndex, charIndex)
+		local nextNode = node[currentChar]
 
 		if not nextNode then
-			if not exactMatch and currentNode.isWordComplete then
+			if not isExactMatch and node.isWordComplete then
 				return true
 			else
 				return false
 			end
 		end
 
-		currentNode = nextNode
+		node = nextNode
 	end
 
-	return currentNode.isWordComplete
+	return node.isWordComplete
 end
+
+Private.TrieUtils = TrieUtils

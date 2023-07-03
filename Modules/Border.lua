@@ -1,79 +1,113 @@
-local _, Private = ...
+--- @class Private
+local Private = select(2, ...)
 
+--- @class BorderModule: AceModule
 local BorderModule = Private.Addon:NewModule("Border")
 
-local ChatFrameUtils = Private.Utils.ChatFrame
-local DatabaseUtils = Private.Utils.Database
+--- @class ChatFrameUtils
+local ChatFrameUtils = Private.ChatFrameUtils
 
-function BorderModule:GetFrame(chatFrameId)
-	return self.borderFrames[chatFrameId]
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
+
+--- @type table<number, table>
+local borders = {}
+
+--- @class ObjectPoolMixin
+local borderPool = CreateFramePool("Frame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+
+--- Configures the border for a chat frame.
+--- @param chatFrame table
+--- @param index number
+--- @param border table
+local function configureBorder(chatFrame, index, border)
+	local databaseBorder = DatabaseUtils.GetChatFramesTable(index, "border")
+
+	border:SetParent(chatFrame)
+
+	BorderModule:UpdateBorderMargin(index, databaseBorder.margin)
+	BorderModule:UpdateBorderColor(index, databaseBorder.color)
+	BorderModule:UpdateBorderBackdrop(index, databaseBorder.size, databaseBorder.texture, databaseBorder.color)
+
+	border:SetShown(databaseBorder.isEnabled)
 end
 
-function BorderModule:CreateFrame(chatFrameId)
-	local borderFrame = self.borderPool:Acquire()
+--- Creates a border for a chat frame.
+--- @param index number
+--- @return table
+local function createBorder(index)
+	local border = borderPool:Acquire()
 
-	self.borderFrames[chatFrameId] = borderFrame
+	borders[index] = border
 
-	return borderFrame
+	return border
 end
 
-function BorderModule:SetupFrame(borderFrame, chatFrame, borderTable)
-	local chatFrameBackground = ChatFrameUtils.getChatFrameBackground(chatFrame)
-	local color = borderTable.color
-	local margin = borderTable.margin
-	local size = borderTable.size
-	local texture = borderTable.texture
+--- Updates the border status for a chat frame.
+--- @param index number
+--- @param isEnabled boolean
+function BorderModule:UpdateBorderIsEnabled(index, isEnabled)
+	local border = borders[index]
 
-	borderFrame:SetParent(chatFrame)
-	borderFrame:SetPoint("TOPLEFT", chatFrameBackground, "TOPLEFT", -margin, margin)
-	borderFrame:SetPoint("BOTTOMRIGHT", chatFrameBackground, "BOTTOMRIGHT", margin, -margin)
-	borderFrame:SetBackdrop({
-		edgeFile = texture,
-		edgeSize = size,
-	})
-	borderFrame:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
-end
+	if not border then
+		border = createBorder(index)
+	end
 
-function BorderModule:ShowFrame(borderFrame)
-	if not borderFrame:IsShown() then
-		borderFrame:Show()
+	if isEnabled then
+		border:Show()
+	else
+		border:Hide()
+
+		borderPool:Release(border)
+
+		borders[index] = nil
 	end
 end
 
-function BorderModule:HideFrame(chatFrameId)
-	local borderFrame = self:GetFrame(chatFrameId)
+--- Updates the border color for a chat frame.
+--- @param index number
+--- @param color table
+function BorderModule:UpdateBorderColor(index, color)
+	local border = borders[index]
 
-	if borderFrame then
-		borderFrame:Hide()
-
-		self.borderPool:Release(borderFrame)
-		self.borderFrames[chatFrameId] = nil
-	end
+	border:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
 end
 
-function BorderModule:UpdateFrame(chatFrame)
-	local chatFrameId = ChatFrameUtils.getChatFrameId(chatFrame)
-	local borderTable = DatabaseUtils.getChatFramesTable(chatFrameId, "border")
+--- Updates the border margin for a chat frame.
+--- @param index number
+--- @param margin number
+function BorderModule:UpdateBorderMargin(index, margin)
+	local border = borders[index]
+	local chatFrame = ChatFrameUtils:GetChatFrame(index)
+	local chatFrameBackground = ChatFrameUtils:GetChatFrameBackground(chatFrame)
 
-	if not borderTable.isEnabled then
-		self:HideFrame(chatFrameId)
-
-		return
-	end
-
-	local borderFrame = self:GetFrame(chatFrameId) or self:CreateFrame(chatFrameId)
-
-	self:SetupFrame(borderFrame, chatFrame, borderTable)
-	self:ShowFrame(borderFrame)
+	border:SetPoint("TOPLEFT", chatFrameBackground, "TOPLEFT", -margin, margin)
+	border:SetPoint("BOTTOMRIGHT", chatFrameBackground, "BOTTOMRIGHT", margin, -margin)
 end
 
-function BorderModule:OnInitialize()
-	self.borderFrames = {}
-	self.borderPool = CreateFramePool("Frame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
+--- Updates the border backdrop for a chat frame.
+--- @param index number
+--- @param size number
+--- @param texture string
+--- @param color table
+function BorderModule:UpdateBorderBackdrop(index, size, texture, color)
+	local border = borders[index]
+
+	border:SetBackdrop({ edgeFile = texture, edgeSize = size })
+	border:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+end
+
+--- Initializes the border frame for a chat frame.
+--- @param chatFrame table
+--- @param index number
+function BorderModule:InitializeBorder(chatFrame, index)
+	local border = createBorder(index)
+
+	configureBorder(chatFrame, index, border)
 end
 
 function BorderModule:OnEnable()
-	ChatFrameUtils.forEachChatFrame(function(chatFrame)
-		self:UpdateFrame(chatFrame)
+	ChatFrameUtils:ForEachChatFrame(function(chatFrame, index)
+		self:InitializeBorder(chatFrame, index)
 	end)
 end

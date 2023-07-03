@@ -1,58 +1,97 @@
-local format = string.format
+--- @class Private
+local Private = select(2, ...)
 
-local _, Private = ...
-
+--- @class FilterModule: AceModule
 local FilterModule = Private.Addon:NewModule("Filter")
 
-local ChatFrameUtils = Private.Utils.ChatFrame
-local DatabaseUtils = Private.Utils.Database
-local FilterUtils = Private.Utils.Filter
+--- @class ChatFrameUtils
+local ChatFrameUtils = Private.ChatFrameUtils
 
-function FilterModule:OnChatEventCallback(chatFrame, event, message, author)
-	local chatFrameId = ChatFrameUtils.getChatFrameId(chatFrame)
-	local filterTable = DatabaseUtils.getChatFramesTable(chatFrameId, "filter")
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
 
-	if not filterTable.isEnabled then
+--- @class StringUtils
+local StringUtils = Private.StringUtils
+
+--- @class TrieUtils
+local TrieUtils = Private.TrieUtils
+
+--- @class FilterConstants
+local FilterConstants = Private.FilterConstants
+
+--- @type table<string>
+local chatMessageEvents = FilterConstants.EVENTS
+
+--- Checks if a chat message should be filtered.
+--- @param message string
+--- @param databaseFilter table
+--- @return boolean?
+local function shouldFilterChatMessage(message, databaseFilter)
+	local trie = databaseFilter.trie
+	local isExactMatch = databaseFilter.isExactMatch
+
+	for word in string.gmatch(message, "%S+") do
+		local sanitizedWord = StringUtils.Sanitize(word)
+
+		if TrieUtils:ContainsWord(trie, sanitizedWord, isExactMatch) then
+			return true
+		end
+	end
+end
+
+--- Handles a chat message event.
+--- @param chatFrame table
+--- @param event string
+--- @param message string
+--- @param author string
+--- @return boolean
+local function onChatEventCallback(chatFrame, event, message, author)
+	local chatFrameId = ChatFrameUtils:GetChatFrameId(chatFrame)
+	local databaseFilter = DatabaseUtils.GetChatFramesTable(chatFrameId, "filter")
+	local isEnabled = databaseFilter.isEnabled
+	local isShowFilteredMessages = databaseFilter.isShowFilteredMessages
+
+	if isEnabled == false then
 		return false
 	end
 
-	if not FilterUtils.shouldFilterChatMessage(filterTable, message) then
+	if not shouldFilterChatMessage(message, databaseFilter) then
 		return false
 	end
 
-	if filterTable.isShowFilteredMessages then
-		print(format("Filtered message from %s: %s", author, message))
+	if isShowFilteredMessages == true then
+		chatFrame:AddMessage(string.format("%s: %s", author, message), 1, 0, 0)
 	end
 
 	return true
 end
 
-function FilterModule:HandleEventFilter(handler)
-	local callback = function(...)
-		return self:OnChatEventCallback(...)
+--- Adds or removes a message event filter.
+--- @param handler function
+local function handleEventFilter(handler)
+	local callback = function(chatFrame, event, message, author)
+		return onChatEventCallback(chatFrame, event, message, author)
 	end
 
-	for i = 1, #self.chatMessageEvents do
-		handler(self.chatMessageEvents[i], callback)
+	for _, event in ipairs(chatMessageEvents) do
+		handler(event, callback)
 	end
 end
 
-function FilterModule:AddMessageEventFilter()
-	self:HandleEventFilter(ChatFrame_AddMessageEventFilter)
+local function addMessageEventFilter()
+	handleEventFilter(ChatFrame_AddMessageEventFilter)
 end
 
-function FilterModule:RemoveMessageEventFilter()
-	self:HandleEventFilter(ChatFrame_RemoveMessageEventFilter)
-end
-
-function FilterModule:OnInitialize()
-	self.chatMessageEvents = FilterUtils.getChatMessageEvents()
+local function removeMessageEventFilter()
+	handleEventFilter(ChatFrame_RemoveMessageEventFilter)
 end
 
 function FilterModule:OnEnable()
-	self:AddMessageEventFilter()
+	addMessageEventFilter()
 end
 
 function FilterModule:OnDisable()
-	self:RemoveMessageEventFilter()
+	removeMessageEventFilter()
 end
+
+Private.FilterModule = FilterModule

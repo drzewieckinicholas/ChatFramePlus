@@ -1,48 +1,30 @@
-local _, Private = ...
+--- @class Private
+local Private = select(2, ...)
 
-local BorderOptions = Private:CreateTable({ "Options", "Border" })
+--- @class BorderOptions
+local BorderOptions = {}
 
+--- @class BorderModule: AceModule
 local BorderModule = Private.Addon:GetModule("Border")
 
-local BorderConstants = Private.Constants.Border
+--- @class BorderConstants
+local BorderConstants = Private.BorderConstants
 
-local DatabaseUtils = Private.Utils.Database
-local OptionsUtils = Private.Utils.Options
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
 
-local createAccessors = OptionsUtils.createAccessors
-
-local function unpackColor(color)
-	return color.r, color.g, color.b, color.a
-end
-
-local function packColor(r, g, b, a)
-	return { r = r, g = g, b = b, a = a }
-end
-
-function BorderOptions.getOptionsForFrame(chatFrame, index)
-	local borderTable = function()
-		return DatabaseUtils.getChatFramesTable(index, "border")
-	end
-
-	local handleUpdate = function()
-		BorderModule:UpdateFrame(chatFrame)
-	end
-
-	local getBorderEnabled, setBorderEnabled = createAccessors(borderTable, { "isEnabled" }, nil, nil, handleUpdate)
-
-	local getBorderColor, setBorderColor = createAccessors(borderTable, { "color" }, unpackColor, packColor, handleUpdate)
-
-	local getBorderMargin, setBorderMargin = createAccessors(borderTable, { "margin" }, nil, nil, handleUpdate)
-
-	local getBorderSize, setBorderSize = createAccessors(borderTable, { "size" }, nil, nil, handleUpdate)
-
-	local getBorderTexture, setBorderTexture = createAccessors(borderTable, { "texture" }, nil, nil, handleUpdate)
+--- Returns the border options table for a chat frame.
+--- @param chatFrame table
+--- @param index number
+--- @return table
+function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
+	local databaseBorder = DatabaseUtils.GetChatFramesTable(index, "border")
 
 	return {
 		order = 1,
 		type = "group",
 		name = BorderModule.moduleName,
-		desc = "Options for the chat frame border",
+		desc = "Border options",
 		args = {
 			borderTogglesGroup = {
 				order = 1,
@@ -50,69 +32,113 @@ function BorderOptions.getOptionsForFrame(chatFrame, index)
 				name = "Border Toggles",
 				inline = true,
 				args = {
-					borderEnabled = {
+					borderIsEnabled = {
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
 						desc = "Toggle the border on or off",
 						width = "full",
-						get = getBorderEnabled,
-						set = setBorderEnabled,
+						get = function(_)
+							return databaseBorder.isEnabled
+						end,
+						set = function(_, value)
+							databaseBorder.isEnabled = value
+
+							BorderModule:UpdateBorderIsEnabled(index, value)
+						end,
 					},
 				},
 			},
-			borderOptionsGroup = {
+			borderPropertiesGroup = {
 				order = 2,
 				type = "group",
-				name = "Border Options",
+				name = "Border Properties",
 				inline = true,
 				args = {
 					borderColor = {
 						order = 1,
 						type = "color",
 						name = "Color",
-						desc = "Select the border color",
+						desc = "Set the border color",
 						hasAlpha = true,
 						width = "full",
-						get = getBorderColor,
-						set = setBorderColor,
+						get = function(_)
+							local color = databaseBorder.color
+
+							return color.r, color.g, color.b, color.a
+						end,
+						set = function(_, r, g, b, a)
+							local color = databaseBorder.color
+
+							color.r = r
+							color.g = g
+							color.b = b
+							color.a = a
+
+							BorderModule:UpdateBorderColor(index, color)
+						end,
 					},
 					borderMargin = {
 						order = 2,
 						type = "range",
 						name = "Margin",
-						desc = "Select the border margin",
+						desc = "Set the border margin",
 						min = BorderConstants.MARGIN_MIN,
 						max = BorderConstants.MARGIN_MAX,
 						step = BorderConstants.MARGIN_STEP,
 						width = "full",
-						get = getBorderMargin,
-						set = setBorderMargin,
+						get = function(_)
+							return databaseBorder.margin
+						end,
+						set = function(_, value)
+							databaseBorder.margin = value
+
+							BorderModule:UpdateBorderMargin(index, value)
+						end,
 					},
 					borderSize = {
 						order = 3,
 						type = "range",
 						name = "Size",
-						desc = "Select the border size",
+						desc = "Set the border size",
 						min = BorderConstants.SIZE_MIN,
 						max = BorderConstants.SIZE_MAX,
 						step = BorderConstants.SIZE_STEP,
 						width = "full",
-						get = getBorderSize,
-						set = setBorderSize,
+						get = function(_)
+							return databaseBorder.size
+						end,
+						set = function(_, value)
+							databaseBorder.size = value
+
+							BorderModule:UpdateBorderBackdrop(
+								index,
+								value,
+								databaseBorder.texture,
+								databaseBorder.color
+							)
+						end,
 					},
 					borderTexture = {
 						order = 4,
 						type = "select",
 						name = "Texture",
-						desc = "Select the border texture",
+						desc = "Set the border texture",
 						values = BorderConstants.TEXTURES,
 						width = "full",
-						get = getBorderTexture,
-						set = setBorderTexture,
+						get = function(_)
+							return databaseBorder.texture
+						end,
+						set = function(_, value)
+							databaseBorder.texture = value
+
+							BorderModule:UpdateBorderBackdrop(index, databaseBorder.size, value, databaseBorder.color)
+						end,
 					},
 				},
 			},
 		},
 	}
 end
+
+Private.BorderOptions = BorderOptions

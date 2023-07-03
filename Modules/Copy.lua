@@ -1,117 +1,135 @@
-local concat = table.concat
-
 local AceGUI = LibStub("AceGUI-3.0")
 
-local _, Private = ...
+--- @class Private
+local Private = select(2, ...)
 
+--- @class CopyModule: AceModule
 local CopyModule = Private.Addon:NewModule("Copy")
 
-local CopyConstants = Private.Constants.Copy
+--- @class CopyConstants
+local CopyConstants = Private.CopyConstants
 
-local ChatFrameUtils = Private.Utils.ChatFrame
+--- @class ChatFrameUtils
+local ChatFrameUtils = Private.ChatFrameUtils
 
-function CopyModule:OnTextChangedCallback(widget, userInput)
-	if not userInput then
-		return
-	end
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
 
-	local currentMessage = self.currentCopyFrame and self.currentCopyFrame.text or ""
+--- @class CopyState
+--- @field copyFrame table?
+--- @field multiLineEditBox table?
+--- @field text string?
+local state = {
+	copyFrame = nil,
+	multiLineEditBox = nil,
+	text = "",
+}
 
-	if widget:GetText() == currentMessage then
-		return
-	end
+--- Configures the copy frame.
+local function configureCopyFrame(copyFrame)
+	copyFrame:SetTitle(CopyConstants.FRAME_TITLE)
+	copyFrame:SetWidth(CopyConstants.FRAME_WIDTH)
+	copyFrame:SetHeight(CopyConstants.FRAME_HEIGHT)
+	copyFrame:SetLayout(CopyConstants.FRAME_LAYOUT)
+	copyFrame.frame:EnableKeyboard(true)
+	copyFrame.frame:SetClampedToScreen(true)
+	copyFrame.frame:SetFrameStrata(CopyConstants.FRAME_STRATA)
+	copyFrame.frame:SetPropagateKeyboardInput(true)
+end
 
+--- Creates the copy frame.
+local function createCopyFrame()
+	local copyFrame = AceGUI:Create("Frame")
+
+	configureCopyFrame(copyFrame)
+
+	return copyFrame
+end
+
+--- Handles the text changing in the multi line edit box.
+local function onTextChangedCallback(widget)
+	local currentText = state.text
 	local cursorPosition = widget:GetCursorPosition()
 
-	widget:SetText(currentMessage)
+	widget:SetText(currentText)
 	widget:SetCursorPosition(cursorPosition)
 end
 
-function CopyModule:OnCloseCallback(widget)
-	AceGUI:Release(widget)
-
-	self.currentCopyFrame = nil
-end
-
-function CopyModule:HandleKeyInput(widget, key)
-	local shouldPropagate = key ~= "ESCAPE"
-
-	widget:SetPropagateKeyboardInput(shouldPropagate)
-
-	if not shouldPropagate and self.currentCopyFrame then
-		self.currentCopyFrame.frame:Hide()
-	end
-end
-
-function CopyModule:SetKeyHandler(element)
-	element:EnableKeyboard(true)
-	element:SetScript("OnKeyDown", function(...)
-		self:HandleKeyInput(...)
-	end)
-	element:SetPropagateKeyboardInput(true)
-end
-
-function CopyModule:SetupFrame(copyFrame)
-	copyFrame:SetTitle(CopyConstants.FRAME_TITLE)
-	copyFrame:SetLayout(CopyConstants.FRAME_LAYOUT)
-	copyFrame:SetWidth(CopyConstants.FRAME_WIDTH)
-	copyFrame:SetHeight(CopyConstants.FRAME_HEIGHT)
-	copyFrame:SetCallback("OnClose", function(...)
-		self:OnCloseCallback(...)
-	end)
-	copyFrame.frame:SetClampedToScreen(true)
-	copyFrame.frame:SetFrameStrata(CopyConstants.FRAME_STRATA)
-
-	self:SetKeyHandler(copyFrame.frame)
-end
-
-function CopyModule:SetupMultiLineEditBox(multiLineEditBox)
-	multiLineEditBox:SetLabel(nil)
+--- Configures the multi line edit box.
+local function configureMultiLineEditBox(multiLineEditBox)
 	multiLineEditBox:DisableButton(true)
-	multiLineEditBox:SetCallback("OnTextChanged", function(...)
-		self:OnTextChangedCallback(...)
-	end)
-
-	self:SetKeyHandler(multiLineEditBox.editBox)
+	multiLineEditBox:SetLabel("")
+	multiLineEditBox:SetCallback("OnTextChanged", onTextChangedCallback)
 end
 
-function CopyModule:CreateFrame()
-	local copyFrame = AceGUI:Create("Frame")
-	self:SetupFrame(copyFrame)
-
+--- Creates the multi line edit box.
+local function createMultiLineEditBox()
 	local multiLineEditBox = AceGUI:Create("MultiLineEditBox")
-	self:SetupMultiLineEditBox(multiLineEditBox)
+
+	configureMultiLineEditBox(multiLineEditBox)
+
+	return multiLineEditBox
+end
+
+--- Updates the copy frame with the chat frame messages.
+--- @param chatFrame table
+local function updateCopyFrame(chatFrame)
+	state.text = table.concat(ChatFrameUtils:GetChatFrameMessages(chatFrame), "\n")
+	state.multiLineEditBox:SetText(state.text)
+
+	-- To scroll to the bottom of the multi line edit box, we need to wait.
+	C_Timer.After(0, function()
+		state.multiLineEditBox:SetCursorPosition(#state.text)
+	end)
+end
+
+--- Closes the copy frame.
+local function closeCopyFrame()
+	state.copyFrame:Hide()
+
+	AceGUI:Release(state.copyFrame)
+
+	state.copyFrame = nil
+end
+
+--- Sets the escape key handler for a frame.
+local function setEscapeKeyHandler(frame, editBox)
+	frame:SetScript("OnKeyDown", function(self, key)
+		if key ~= "ESCAPE" then
+			self:SetPropagateKeyboardInput(true)
+
+			return
+		end
+
+		closeCopyFrame()
+
+		self:SetPropagateKeyboardInput(false)
+	end)
+end
+
+--- Initializes the copy frame.
+local function initializeCopyFrame()
+	local copyFrame = createCopyFrame()
+	local multiLineEditBox = createMultiLineEditBox()
 
 	copyFrame:AddChild(multiLineEditBox)
 
-	self.currentCopyFrame = {
-		editBox = multiLineEditBox,
-		frame = copyFrame,
-		text = "",
-	}
+	setEscapeKeyHandler(copyFrame.frame, multiLineEditBox.editBox)
 
-	return self.currentCopyFrame
+	state.copyFrame = copyFrame
+	state.multiLineEditBox = multiLineEditBox
+	state.text = ""
 end
 
-function CopyModule:UpdateFrame(copyFrame, chatFrame)
-	copyFrame.text = concat(ChatFrameUtils.getChatFrameMessages(chatFrame), "\n")
-	copyFrame.editBox:SetText(copyFrame.text)
-
-	if self.currentCopyFrame then
-		C_Timer.After(0, function()
-			self.currentCopyFrame.editBox:SetCursorPosition(#self.currentCopyFrame.text)
-		end)
+--- Shows the copy frame.
+--- @param chatFrame table
+function CopyModule:ShowCopyFrame(chatFrame)
+	if not state.copyFrame then
+		initializeCopyFrame()
 	end
-end
 
-function CopyModule:ShowFrame(chatFrame)
-	self.currentCopyFrame = self.currentCopyFrame or self:CreateFrame()
+	updateCopyFrame(chatFrame)
 
-	self:UpdateFrame(self.currentCopyFrame, chatFrame)
-
-	self.currentCopyFrame.frame:Show()
-end
-
-function CopyModule:OnInitialize()
-	self.currentCopyFrame = nil
+	state.copyFrame:Show()
+	state.copyFrame.frame:SetPropagateKeyboardInput(true)
 end

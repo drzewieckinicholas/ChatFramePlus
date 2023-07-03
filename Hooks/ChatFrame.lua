@@ -1,48 +1,73 @@
-local AddonName, Private = ...
+local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 
-local ChatFrameHooks = Private:CreateTable({ "Hooks", "ChatFrame" })
+--- @type string
+local AddonName = select(1, ...)
 
+--- @class Private
+local Private = select(2, ...)
+
+--- @class ChatFrameHooks
+local ChatFrameHooks = {}
+
+--- @class CopyModule: AceModule
 local CopyModule = Private.Addon:GetModule("Copy")
+
+--- @class FontModule: AceModule
 local FontModule = Private.Addon:GetModule("Font")
 
-local ChatFrameUtils = Private.Utils.ChatFrame
-local DatabaseUtils = Private.Utils.Database
+--- @class ChatFrameUtils
+local ChatFrameUtils = Private.ChatFrameUtils
 
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
+
+--- Hooks into FCF_SetChatWindowFontSize to update the font size in the database and options.
+--- @param self nil|table
+--- @param chatFrame table?
+--- @param fontSize number?
 local function handleSetChatWindowFontSize(self, chatFrame, fontSize)
 	if not chatFrame then
 		chatFrame = FCF_GetCurrentChatFrame()
 	end
 
+	local chatFrameId = ChatFrameUtils:GetChatFrameId(chatFrame)
+
 	if not fontSize then
-		fontSize = self.value
+		fontSize = self and self.value
 	end
 
-	local chatFrameId = ChatFrameUtils.getChatFrameId(chatFrame)
-	local fontTable = DatabaseUtils.getChatFramesTable(chatFrameId, "font")
+	local databaseFont = DatabaseUtils.GetChatFramesTable(chatFrameId, "font")
 
-	fontTable.size = fontSize
+	databaseFont.size = fontSize
 
-	FontModule:UpdateFont(chatFrame)
+	FontModule:UpdateFont(chatFrame, nil, fontSize)
 
-	LibStub("AceConfigRegistry-3.0"):NotifyChange(AddonName)
+	AceConfigRegistry:NotifyChange(AddonName)
 end
 
-local function handleChatTabClick(chatTab, button)
+--- Hooks into FCF_Tab_OnClick to show the copy frame when the chat tab is left clicked while holding down the control key.
+--- @param chatTab table
+--- @param button string
+local function handleTabOnClick(chatTab, button)
 	if IsControlKeyDown() and button == "LeftButton" then
-		local chatFrameId = ChatFrameUtils.getChatFrameId(chatTab)
-		local chatFrame = ChatFrameUtils.getChatFrame(chatFrameId)
-		local chatTabName = ChatFrameUtils.getChatTabName(chatFrame)
-		local copyTable = DatabaseUtils.getChatFramesTable(chatFrameId, "copy")
+		local chatFrameId = ChatFrameUtils:GetChatFrameId(chatTab)
+		local chatFrame = ChatFrameUtils:GetChatFrame(chatFrameId)
+		local chatTabName = ChatFrameUtils:GetChatTabName(chatFrame)
+		local databaseCopy = DatabaseUtils.GetChatFramesTable(chatFrameId, "copy")
 
-		if copyTable.isEnabled then
-			CopyModule:ShowFrame(chatFrame)
+		if databaseCopy.isEnabled then
+			CopyModule:ShowCopyFrame(chatFrame)
 		else
-			print(format("Copy is disabled for %s. You can enable it in the options.", chatTabName))
+			chatFrame:AddMessage(
+				string.format("Copy is disabled for %s. Please enable it in the options.", chatTabName)
+			)
 		end
 	end
 end
 
-function ChatFrameHooks:Init()
+function ChatFrameHooks:Initialize()
 	hooksecurefunc("FCF_SetChatWindowFontSize", handleSetChatWindowFontSize)
-	hooksecurefunc("FCF_Tab_OnClick", handleChatTabClick)
+	hooksecurefunc("FCF_Tab_OnClick", handleTabOnClick)
 end
+
+Private.ChatFrameHooks = ChatFrameHooks

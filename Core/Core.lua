@@ -1,21 +1,27 @@
-local AddonName, Private = ...
+--- @type string
+local AddonName = select(1, ...)
 
-local ChatFramePlus = Private.Addon
+--- @class Private
+local Private = select(2, ...)
 
-local ChatFrameHooks = Private.Hooks.ChatFrame
+--- @class Addon: AceAddon
+local Addon = Private.Addon
 
-function ChatFramePlus:OnInitialize()
+--- @class ChatFrameHooks
+local ChatFrameHooks = Private.ChatFrameHooks
+
+function Addon:OnInitialize()
+	--- @class AceDBObject-3.0
 	Private.db = LibStub("AceDB-3.0"):New(AddonName .. "DB", Private:GetDatabaseDefaults(), true)
 
-	Private.Options:Init()
+	Private.Options:Initialize()
 end
 
-function ChatFramePlus:OnEnable()
-	ChatFramePlus:EnableModule("Border")
-	ChatFramePlus:EnableModule("Button")
-	ChatFramePlus:EnableModule("Filter")
-	ChatFramePlus:EnableModule("Font")
-	ChatFramePlus:EnableModule("Tab")
+function Addon:OnEnable()
+	Addon:EnableModule("Border")
+	Addon:EnableModule("Filter")
+	Addon:EnableModule("Font")
+	Addon:EnableModule("Tab")
 
-	ChatFrameHooks:Init()
+	ChatFrameHooks:Initialize()
 end

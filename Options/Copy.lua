@@ -1,28 +1,27 @@
-local concat = table.concat
+--- @class Private
+local Private = select(2, ...)
 
-local _, Private = ...
+--- @class CopyOptions
+local CopyOptions = {}
 
-local CopyOptions = Private:CreateTable({ "Options", "Copy" })
-
+--- @class CopyModule: AceModule
 local CopyModule = Private.Addon:GetModule("Copy")
 
-local DatabaseUtils = Private.Utils.Database
-local OptionsUtils = Private.Utils.Options
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
 
-local createAccessors = OptionsUtils.createAccessors
-
-function CopyOptions.getOptionsForFrame(index)
-	local copyTable = function()
-		return DatabaseUtils.getChatFramesTable(index, "copy")
-	end
-
-	local getCopyEnabled, setCopyEnabled = createAccessors(copyTable, { "isEnabled" })
+--- Returns the copy options table for a chat frame.
+--- @param chatFrame table
+--- @param index number
+--- @return table
+function CopyOptions:CreateOptionsTableForChatFrame(chatFrame, index)
+	local databaseCopy = DatabaseUtils.GetChatFramesTable(index, "copy")
 
 	return {
-		order = 3,
+		order = 2,
 		type = "group",
 		name = CopyModule.moduleName,
-		desc = "Options for copying chat messages",
+		desc = "Copy options",
 		args = {
 			copyTogglesGroup = {
 				order = 1,
@@ -30,24 +29,31 @@ function CopyOptions.getOptionsForFrame(index)
 				name = "Copy Toggles",
 				inline = true,
 				args = {
-					copyEnabled = {
+					copyIsEnabled = {
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
 						desc = function()
-							local descriptions = {
+							local copy = {
 								"Toggle chat message copying on or off",
-								"Hold Ctrl and left click on a chat tab to open the copy frame",
+								"This feature allows you to copy messages from a chat frame to the clipboard",
+								"Hold down the control key and left click on a chat frame tab to show the copy frame",
 							}
 
-							return concat(descriptions, "\n\n")
+							return table.concat(copy, "\n\n")
 						end,
 						width = "full",
-						get = getCopyEnabled,
-						set = setCopyEnabled,
+						get = function(_)
+							return databaseCopy.isEnabled
+						end,
+						set = function(_, value)
+							databaseCopy.isEnabled = value
+						end,
 					},
 				},
 			},
 		},
 	}
 end
+
+Private.CopyOptions = CopyOptions

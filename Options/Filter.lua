@@ -1,111 +1,91 @@
-local gmatch, concat, insert = string.gmatch, table.concat, table.insert
+--- @class Private
+local Private = select(2, ...)
 
-local _, Private = ...
+--- @class FilterOptions
+local FilterOptions = {}
 
-local FilterOptions = Private:CreateTable({ "Options", "Filter" })
-
+--- @class FilterModule: AceModule
 local FilterModule = Private.Addon:GetModule("Filter")
 
-local DatabaseUtils = Private.Utils.Database
-local OptionsUtils = Private.Utils.Options
-local StringUtils = Private.Utils.String
-local TrieUtils = Private.Utils.Trie
+--- @class FilterConstants
+local FilterConstants = Private.FilterConstants
 
-local createAccessors = OptionsUtils.createAccessors
+--- @class DatabaseUtils
+local DatabaseUtils = Private.DatabaseUtils
 
-local function processFilterWords(value)
-	local filterWords = {}
-	local filterWordsTrie = TrieUtils.newTrie()
+--- @class StringUtils
+local StringUtils = Private.StringUtils
 
-	for word in gmatch(value, "[^\n]+") do
-		word = StringUtils.sanitize(word)
+--- @class TrieUtils
+local TrieUtils = Private.TrieUtils
 
-		if word ~= "" then
-			insert(filterWords, word)
+--- @type function
+local newLine = StringUtils.GenerateNewLine
 
-			TrieUtils.insertTrie(filterWordsTrie, word)
-		end
-	end
-
-	return filterWords, filterWordsTrie
-end
-
-function FilterOptions.getOptionsForFrame(index)
-	local getFilterTable = function()
-		return DatabaseUtils.getChatFramesTable(index, "filter")
-	end
-
-	local function getFilterWordsAsString(filterWords)
-		return concat(filterWords, "\n")
-	end
-
-	local function setFilterWordsFromString(value)
-		local filterWords, filterWordsTrie = processFilterWords(value)
-		local filterTable = getFilterTable()
-
-		filterTable.filterWords = filterWords
-		filterTable.filterWordsTrie = filterWordsTrie
-
-		return filterWords
-	end
-
-	local getFilterEnabled, setFilterEnabled =
-		createAccessors(getFilterTable, { "isEnabled" })
-
-	local getExactMatch, setExactMatch =
-		createAccessors(getFilterTable, { "isExactMatch" })
-
-	local getShowFilteredMessages, setShowFilteredMessages =
-		createAccessors(getFilterTable, { "isShowFilteredMessages" })
-
-	local getFilterWords, setFilterWords =
-		createAccessors(getFilterTable, { "filterWords" }, getFilterWordsAsString, setFilterWordsFromString)
+--- Returns the filter options table for a chat frame.
+--- @param chatFrame table
+--- @param index number
+--- @return table
+function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
+	local databaseFilter = DatabaseUtils.GetChatFramesTable(index, "filter")
 
 	return {
-		order = 4,
+		order = 3,
 		type = "group",
 		childGroups = "tab",
 		name = FilterModule.moduleName,
-		desc = "Options for filtering chat messages",
+		desc = "Filter options",
 		args = {
 			filterTogglesTab = {
 				order = 1,
 				type = "group",
 				name = "Filter Toggles",
 				args = {
-					filterEnabled = {
+					filterIsEnabled = {
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
-						desc = "Toggle chat message filtering on or off",
+						desc = "Toggle the filter on or off",
 						width = "full",
-						get = getFilterEnabled,
-						set = setFilterEnabled,
+						get = function(_)
+							return databaseFilter.isEnabled
+						end,
+						set = function(_, value)
+							databaseFilter.isEnabled = value
+						end,
 					},
-					exactMatch = {
+					filterIsExactMatch = {
 						order = 2,
 						type = "toggle",
 						name = "Exact Match",
 						desc = function()
-							local descriptions = {
+							local copy = {
 								"Enable to filter out messages where any word in the message exactly matches one of your filter words",
 								"Disable to filter out messages where any word in the message partially matches one of your filter words",
 							}
 
-							return concat(descriptions, "\n\n")
+							return table.concat(copy, newLine(2))
 						end,
 						width = "full",
-						get = getExactMatch,
-						set = setExactMatch,
+						get = function(_)
+							return databaseFilter.isExactMatch
+						end,
+						set = function(_, value)
+							databaseFilter.isExactMatch = value
+						end,
 					},
-					showFilteredMessages = {
+					filterIsShowFilteredMessages = {
 						order = 3,
 						type = "toggle",
 						name = "Show Filtered Messages",
-						desc = "Toggle whether or not to show filtered messages in the chat frame",
+						desc = "Toggle the display of filtered messages in the chat frame",
 						width = "full",
-						get = getShowFilteredMessages,
-						set = setShowFilteredMessages,
+						get = function(_)
+							return databaseFilter.isShowFilteredMessages
+						end,
+						set = function(_, value)
+							databaseFilter.isShowFilteredMessages = value
+						end,
 					},
 				},
 			},
@@ -118,13 +98,13 @@ function FilterOptions.getOptionsForFrame(index)
 						order = 1,
 						type = "description",
 						name = function()
-							local descriptions = {
+							local copy = {
 								"Enter words to filter out messages from the chat frame",
 								"Each word should be on a new line",
 								"Words are case insensitive",
 							}
 
-							return concat(descriptions, "\n\n")
+							return table.concat(copy, newLine(2))
 						end,
 						fontSize = "medium",
 						width = "full",
@@ -135,11 +115,28 @@ function FilterOptions.getOptionsForFrame(index)
 						name = "",
 						width = "full",
 						multiline = true,
-						get = getFilterWords,
-						set = setFilterWords,
+						get = function(_)
+							return table.concat(databaseFilter.words, newLine(1))
+						end,
+						set = function(_, value)
+							local words = {}
+							local trie = TrieUtils:Create()
+							local sanitizedWords = StringUtils.Sanitize(value)
+
+							for word in sanitizedWords:gmatch("[^" .. newLine(1) .. "]+") do
+								TrieUtils:InsertWord(trie, word)
+
+								table.insert(words, word)
+							end
+
+							databaseFilter.words = words
+							databaseFilter.trie = trie
+						end,
 					},
 				},
 			},
 		},
 	}
 end
+
+Private.FilterOptions = FilterOptions
