@@ -70,7 +70,9 @@ end
 function BorderModule:UpdateBorderColor(index, color)
 	local border = borders[index]
 
-	border:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	if not border then
+		border:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	end
 end
 
 --- Updates the border margin for a chat frame.
@@ -81,8 +83,10 @@ function BorderModule:UpdateBorderMargin(index, margin)
 	local chatFrame = ChatFrameUtils:GetChatFrame(index)
 	local chatFrameBackground = ChatFrameUtils:GetChatFrameBackground(chatFrame)
 
-	border:SetPoint("TOPLEFT", chatFrameBackground, "TOPLEFT", -margin, margin)
-	border:SetPoint("BOTTOMRIGHT", chatFrameBackground, "BOTTOMRIGHT", margin, -margin)
+	if not border then
+		border:SetPoint("TOPLEFT", chatFrameBackground, "TOPLEFT", -margin, margin)
+		border:SetPoint("BOTTOMRIGHT", chatFrameBackground, "BOTTOMRIGHT", margin, -margin)
+	end
 end
 
 --- Updates the border backdrop for a chat frame.
@@ -93,8 +97,10 @@ end
 function BorderModule:UpdateBorderBackdrop(index, size, texture, color)
 	local border = borders[index]
 
-	border:SetBackdrop({ edgeFile = texture, edgeSize = size })
-	border:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	if not border then
+		border:SetBackdrop({ edgeFile = texture, edgeSize = size })
+		border:SetBackdropBorderColor(color.r, color.g, color.b, color.a)
+	end
 end
 
 --- Initializes the border frame for a chat frame.
