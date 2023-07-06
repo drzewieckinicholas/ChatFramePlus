@@ -21,7 +21,7 @@ function TabOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 	local databaseTab = DatabaseUtils.GetChatFramesTable(index, "tab")
 
 	return {
-		order = 4,
+		order = 5,
 		type = "group",
 		name = TabModule.moduleName,
 		desc = "Tab options",

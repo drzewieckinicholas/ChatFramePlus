@@ -13,14 +13,11 @@ local DatabaseUtils = Private.DatabaseUtils
 --- @type table<number, table>
 local borders = {}
 
---- @class ObjectPoolMixin
-local borderPool = CreateFramePool("Frame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-
 --- Creates a border for a chat frame.
 --- @param index number
 --- @return table
 local function createBorder(index)
-	local border = borderPool:Acquire()
+	local border = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 
 	borders[index] = border
 
@@ -39,8 +36,7 @@ local function configureBorder(chatFrame, index, border)
 	BorderModule:UpdateBorderMargin(index, databaseBorder.margin)
 	BorderModule:UpdateBorderColor(index, databaseBorder.color)
 	BorderModule:UpdateBorderBackdrop(index, databaseBorder.size, databaseBorder.texture, databaseBorder.color)
-
-	border:SetShown(databaseBorder.isEnabled)
+	BorderModule:UpdateBorderIsEnabled(index, databaseBorder.isEnabled)
 end
 
 --- Initializes the border frame for a chat frame.
@@ -107,9 +103,5 @@ function BorderModule:UpdateBorderIsEnabled(index, isEnabled)
 		border = createBorder(index)
 	end
 
-	if isEnabled then
-		border:Show()
-	else
-		border:Hide()
-	end
+	border:SetShown(isEnabled)
 end
