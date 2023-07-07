@@ -99,9 +99,7 @@ end
 function BorderModule:UpdateBorderIsEnabled(index, isEnabled)
 	local border = borders[index]
 
-	if not border then
-		border = createBorder(index)
+	if border then
+		border:SetShown(isEnabled)
 	end
-
-	border:SetShown(isEnabled)
 end
