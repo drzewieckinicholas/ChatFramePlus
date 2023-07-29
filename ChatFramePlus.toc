@@ -23,7 +23,9 @@ Constants\Tab.lua
 
 # Utils
 Utils\ChatFrame.lua
+Utils\Color.lua
 Utils\Database.lua
+Utils\Message.lua
 Utils\String.lua
 Utils\Trie.lua
 

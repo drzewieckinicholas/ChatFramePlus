@@ -1,3 +1,5 @@
+--- @diagnostic disable: undefined-field
+
 local AceGUI = LibStub("AceGUI-3.0")
 
 --- @class Private
@@ -12,124 +14,100 @@ local CopyConstants = Private.CopyConstants
 --- @class ChatFrameUtils
 local ChatFrameUtils = Private.ChatFrameUtils
 
+--- @class ColorUtils
+local ColorUtils = Private.ColorUtils
+
 --- @class DatabaseUtils
 local DatabaseUtils = Private.DatabaseUtils
 
---- @class CopyState
---- @field copyFrame table?
---- @field multiLineEditBox table?
---- @field text string?
-local state = {
-	copyFrame = nil,
-	multiLineEditBox = nil,
-	text = "",
-}
+--- @class MessageUtils
+local MessageUtils = Private.MessageUtils
 
---- Configures the copy frame.
-local function configureCopyFrame(copyFrame)
-	copyFrame:SetTitle(CopyConstants.FRAME_TITLE)
-	copyFrame:SetWidth(CopyConstants.FRAME_WIDTH)
-	copyFrame:SetHeight(CopyConstants.FRAME_HEIGHT)
-	copyFrame:SetLayout(CopyConstants.FRAME_LAYOUT)
-	copyFrame.frame:EnableKeyboard(true)
-	copyFrame.frame:SetClampedToScreen(true)
-	copyFrame.frame:SetFrameStrata(CopyConstants.FRAME_STRATA)
-	copyFrame.frame:SetPropagateKeyboardInput(true)
+local frame = nil
+
+local multiLineEditBox = nil
+
+--- @type string
+local multiLineEditBoxText = ""
+
+--- Handles the OnClose callback for the frame.
+local function frameOnCloseCallback()
+	AceGUI:Release(frame)
+	frame = nil
 end
 
---- Creates the copy frame.
-local function createCopyFrame()
-	local copyFrame = AceGUI:Create("Frame")
-
-	configureCopyFrame(copyFrame)
-
-	return copyFrame
+--- Creates a frame.
+local function createFrame()
+	--- @class AceGUIFrame : AceGUIContainer
+	frame = AceGUI:Create("Frame")
+	frame:EnableResize(false)
+	frame:SetTitle(CopyConstants.FRAME_TITLE)
+	frame:SetWidth(CopyConstants.FRAME_WIDTH)
+	frame:SetHeight(CopyConstants.FRAME_HEIGHT)
+	frame:SetLayout(CopyConstants.FRAME_LAYOUT)
+	frame.frame:SetClampedToScreen(true)
+	frame.frame:SetFrameStrata(CopyConstants.FRAME_STRATA)
+	frame:SetCallback("OnClose", frameOnCloseCallback)
 end
 
---- Handles the text changing in the multi line edit box.
-local function onTextChangedCallback(widget)
-	local currentText = state.text
+--- Handles the OnTextChanged callback for the multi-line edit box.
+--- @param widget AceGUIWidget
+local function multiLineEditBoxOnTextChangedCallback(widget)
+	local currentText = multiLineEditBoxText
 	local cursorPosition = widget:GetCursorPosition()
 
 	widget:SetText(currentText)
 	widget:SetCursorPosition(cursorPosition)
 end
 
---- Configures the multi line edit box.
-local function configureMultiLineEditBox(multiLineEditBox)
+--- Creates a multi-line edit box.
+local function createMultiLineEditBox()
+	--- @class AceGUIMultiLineEditBox : AceGUIWidget
+	multiLineEditBox = AceGUI:Create("MultiLineEditBox")
 	multiLineEditBox:DisableButton(true)
 	multiLineEditBox:SetLabel("")
-	multiLineEditBox:SetCallback("OnTextChanged", onTextChangedCallback)
-end
-
---- Creates the multi line edit box.
-local function createMultiLineEditBox()
-	local multiLineEditBox = AceGUI:Create("MultiLineEditBox")
-
-	configureMultiLineEditBox(multiLineEditBox)
-
-	return multiLineEditBox
-end
-
---- Updates the copy frame with the chat frame messages.
---- @param chatFrame table
-local function updateCopyFrame(chatFrame)
-	state.text = table.concat(ChatFrameUtils:GetChatFrameMessages(chatFrame), "\n")
-	state.multiLineEditBox:SetText(state.text)
-
-	-- To scroll to the bottom of the multi line edit box, we need to wait.
-	C_Timer.After(0, function()
-		state.multiLineEditBox:SetCursorPosition(#state.text)
-	end)
-end
-
---- Closes the copy frame.
-local function closeCopyFrame()
-	state.copyFrame:Hide()
-
-	AceGUI:Release(state.copyFrame)
-
-	state.copyFrame = nil
-end
-
---- Sets the escape key handler for a frame.
-local function setEscapeKeyHandler(frame, editBox)
-	frame:SetScript("OnKeyDown", function(self, key)
-		if key ~= "ESCAPE" then
-			self:SetPropagateKeyboardInput(true)
-
-			return
-		end
-
-		closeCopyFrame()
-
-		self:SetPropagateKeyboardInput(false)
-	end)
+	multiLineEditBox:SetText("")
+	multiLineEditBox:SetCallback("OnTextChanged", multiLineEditBoxOnTextChangedCallback)
 end
 
 --- Initializes the copy frame.
 local function initializeCopyFrame()
-	local copyFrame = createCopyFrame()
-	local multiLineEditBox = createMultiLineEditBox()
+	createFrame()
+	createMultiLineEditBox()
 
-	copyFrame:AddChild(multiLineEditBox)
+	frame:AddChild(multiLineEditBox)
+end
 
-	setEscapeKeyHandler(copyFrame.frame, multiLineEditBox.editBox)
+--- Updates the multi-line edit box text.
+--- @param chatFrame table
+local function updateMultiLineEditBoxText(chatFrame)
+	multiLineEditBoxText = ""
 
-	state.copyFrame = copyFrame
-	state.multiLineEditBox = multiLineEditBox
-	state.text = ""
+	ChatFrameUtils:ForEachChatFrameMessage(chatFrame, function(text, r, g, b)
+		--- Protected messages causes the multi-line edit box to display no text.
+		if not MessageUtils.IsMessageProtected(text) then
+			local hexColor = ColorUtils.RGBToHex(r, g, b)
+
+			multiLineEditBoxText = multiLineEditBoxText .. hexColor .. text .. "|r\n"
+		end
+	end)
+
+	multiLineEditBox.editBox:Insert(multiLineEditBoxText)
+
+	--- Necessary to reliably scroll to the bottom of the multi-line edit box.
+	C_Timer.After(0, function()
+		multiLineEditBox:SetCursorPosition(#multiLineEditBoxText)
+	end)
 end
 
 --- Shows the copy frame.
 --- @param chatFrame table
-function CopyModule:ShowCopyFrame(chatFrame)
-	if not state.copyFrame then
+function CopyModule:Show(chatFrame)
+	if not frame then
 		initializeCopyFrame()
 	end
 
-	updateCopyFrame(chatFrame)
+	updateMultiLineEditBoxText(chatFrame)
 
-	state.copyFrame:Show()
-	state.copyFrame.frame:SetPropagateKeyboardInput(true)
+	frame:Show()
 end
