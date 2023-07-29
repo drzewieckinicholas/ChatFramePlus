@@ -56,7 +56,7 @@ local function handleTabOnClick(chatTab, button)
 		local databaseCopy = DatabaseUtils.GetChatFramesTable(chatFrameId, "copy")
 
 		if databaseCopy.isEnabled then
-			CopyModule:ShowCopyFrame(chatFrame)
+			CopyModule:Show(chatFrame)
 		else
 			chatFrame:AddMessage(
 				string.format("Copy is disabled for %s. Please enable it in the options.", chatTabName)

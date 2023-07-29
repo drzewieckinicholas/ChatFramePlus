@@ -10,9 +10,7 @@ function ChatFrameUtils:ForEachChatFrame(callback)
 	for index = 1, NUM_CHAT_WINDOWS do
 		local chatFrame = self:GetChatFrame(index)
 
-		if chatFrame then
-			callback(chatFrame, index)
-		end
+		callback(chatFrame, index)
 	end
 end
 
@@ -23,11 +21,9 @@ function ChatFrameUtils:ForEachChatFrameMessage(chatFrame, callback)
 	local numMessages = chatFrame:GetNumMessages()
 
 	for index = 1, numMessages do
-		local message = chatFrame:GetMessageInfo(index)
+		local text, r, g, b = chatFrame:GetMessageInfo(index)
 
-		if message then
-			callback(message, index)
-		end
+		callback(text, r, g, b)
 	end
 end
 
@@ -50,19 +46,6 @@ end
 --- @return number
 function ChatFrameUtils:GetChatFrameId(chatFrame)
 	return chatFrame and chatFrame:GetID()
-end
-
---- Returns a table of chat frame messages e.g. { "a", "b" }
---- @param chatFrame table
---- @return table
-function ChatFrameUtils:GetChatFrameMessages(chatFrame)
-	local messages = {}
-
-	self:ForEachChatFrameMessage(chatFrame, function(message)
-		table.insert(messages, message)
-	end)
-
-	return messages
 end
 
 --- Returns a chat frame name e.g. ChatFrame1
