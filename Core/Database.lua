@@ -4,13 +4,13 @@ local Private = select(2, ...)
 --- @class ChatFrameUtils
 local ChatFrameUtils = Private.ChatFrameUtils
 
---- @class borderDefaultsForFrame
+--- @class borderDefaultsForChatFrame
 --- @field color table
 --- @field margin number
 --- @field size number
 --- @field texture string
 --- @field isEnabled boolean
-local borderDefaultsForFrame = {
+local borderDefaultsForChatFrame = {
 	color = { r = 1, g = 1, b = 1, a = 1 },
 	margin = 2.5,
 	size = 12,
@@ -24,13 +24,13 @@ local copyDefaultsForChatFrame = {
 	isEnabled = false,
 }
 
---- @class filterDefaultsForFrame
+--- @class filterDefaultsForChatFrame
 --- @field words table
 --- @field trie nil|table
 --- @field isEnabled boolean
 --- @field isExactMatch boolean
 --- @field isShowFilteredMessages boolean
-local filterDefaultsForFrame = {
+local filterDefaultsForChatFrame = {
 	words = {},
 	trie = nil,
 	isEnabled = false,
@@ -66,9 +66,9 @@ function Private:GetDatabaseDefaults()
 
 	ChatFrameUtils:ForEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
-			border = borderDefaultsForFrame,
+			border = borderDefaultsForChatFrame,
 			copy = copyDefaultsForChatFrame,
-			filter = filterDefaultsForFrame,
+			filter = filterDefaultsForChatFrame,
 			font = fontDefaultsForChatFrame,
 			tab = tabDefaultsForChatFrame,
 		}
