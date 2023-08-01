@@ -30,7 +30,7 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 	local databaseFilter = DatabaseUtils.GetChatFramesTable(index, "filter")
 
 	return {
-		order = 3,
+		order = 4,
 		type = "group",
 		childGroups = "tab",
 		name = FilterModule.moduleName,

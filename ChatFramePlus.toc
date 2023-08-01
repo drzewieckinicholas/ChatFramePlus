@@ -31,6 +31,7 @@ Utils\Trie.lua
 
 # Modules
 Modules\Border.lua
+Modules\Button.lua
 Modules\Copy.lua
 Modules\Filter.lua
 Modules\Font.lua
@@ -46,6 +47,7 @@ Core\Database.lua
 # Options
 Options\Options.lua
 Options\Border.lua
+Options\Button.lua
 Options\Copy.lua
 Options\Filter.lua
 Options\Font.lua
