@@ -18,7 +18,7 @@ function CopyOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 	local databaseCopy = DatabaseUtils.GetChatFramesTable(index, "copy")
 
 	return {
-		order = 2,
+		order = 3,
 		type = "group",
 		name = CopyModule.moduleName,
 		desc = "Copy options",

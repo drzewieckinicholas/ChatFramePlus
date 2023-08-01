@@ -18,6 +18,16 @@ local borderDefaultsForChatFrame = {
 	isEnabled = false,
 }
 
+--- @class buttonDefaultsForChatFrame
+--- @field isBottomButtonVisible boolean
+--- @field isDownButtonVisible boolean
+--- @field isUpButtonVisible boolean
+local buttonDefaultsForChatFrame = {
+	isBottomButtonVisible = true,
+	isDownButtonVisible = true,
+	isUpButtonVisible = true,
+}
+
 --- @class copyDefaultsForChatFrame
 --- @field isEnabled boolean
 local copyDefaultsForChatFrame = {
@@ -67,6 +77,7 @@ function Private:GetDatabaseDefaults()
 	ChatFrameUtils:ForEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
 			border = borderDefaultsForChatFrame,
+			button = buttonDefaultsForChatFrame,
 			copy = copyDefaultsForChatFrame,
 			filter = filterDefaultsForChatFrame,
 			font = fontDefaultsForChatFrame,

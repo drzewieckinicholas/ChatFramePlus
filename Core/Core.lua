@@ -19,6 +19,7 @@ end
 
 function Addon:OnEnable()
 	Addon:EnableModule("Border")
+	Addon:EnableModule("Button")
 	Addon:EnableModule("Filter")
 	Addon:EnableModule("Font")
 	Addon:EnableModule("Tab")

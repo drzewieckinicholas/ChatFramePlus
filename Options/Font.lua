@@ -21,7 +21,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 	local databaseFont = DatabaseUtils.GetChatFramesTable(index, "font")
 
 	return {
-		order = 4,
+		order = 5,
 		type = "group",
 		name = FontModule.moduleName,
 		desc = "Font options",

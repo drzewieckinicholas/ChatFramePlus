@@ -19,6 +19,7 @@ local ChatFrameUtils = Private.ChatFrameUtils
 --- @return table
 local function createOptionsTableForChatFrame(chatFrame, index)
 	local BorderOptions = Private.BorderOptions
+	local ButtonOptions = Private.ButtonOptions
 	local CopyOptions = Private.CopyOptions
 	local FilterOptions = Private.FilterOptions
 	local FontOptions = Private.FontOptions
@@ -26,6 +27,7 @@ local function createOptionsTableForChatFrame(chatFrame, index)
 
 	return {
 		border = BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index),
+		button = ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 		copy = CopyOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 		filter = FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 		font = FontOptions:CreateOptionsTableForChatFrame(chatFrame, index),
