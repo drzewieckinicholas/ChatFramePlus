@@ -92,7 +92,7 @@ local function updateMultiLineEditBoxText(chatFrame)
 		end
 	end)
 
-	multiLineEditBox.editBox:Insert(multiLineEditBoxText)
+	multiLineEditBox:SetText(multiLineEditBoxText)
 
 	--- Necessary to reliably scroll to the bottom of the multi-line edit box.
 	C_Timer.After(0, function()
