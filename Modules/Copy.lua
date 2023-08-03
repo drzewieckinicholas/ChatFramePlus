@@ -84,7 +84,7 @@ local function updateMultiLineEditBoxText(chatFrame)
 	multiLineEditBoxText = ""
 
 	ChatFrameUtils:ForEachChatFrameMessage(chatFrame, function(text, r, g, b)
-		--- Protected messages causes the multi-line edit box to display no text.
+		-- Protected messages causes the multi-line edit box to display no text.
 		if not MessageUtils.IsMessageProtected(text) then
 			local hexColor = ColorUtils.RGBToHex(r, g, b)
 
@@ -94,7 +94,7 @@ local function updateMultiLineEditBoxText(chatFrame)
 
 	multiLineEditBox:SetText(multiLineEditBoxText)
 
-	--- Necessary to reliably scroll to the bottom of the multi-line edit box.
+	-- Necessary to reliably scroll to the bottom of the multi-line edit box.
 	C_Timer.After(0, function()
 		multiLineEditBox:SetCursorPosition(#multiLineEditBoxText)
 	end)
