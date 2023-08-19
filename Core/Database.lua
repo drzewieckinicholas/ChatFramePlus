@@ -18,6 +18,14 @@ local borderDefaultsForChatFrame = {
 	isEnabled = false,
 }
 
+--- @class buttonDefaultsForChat
+--- @field isChannelButtonVisible boolean
+--- @field isMenuButtonVisible boolean
+local buttonDefaultsForChat = {
+	isChannelButtonVisible = true,
+	isMenuButtonVisible = true,
+}
+
 --- @class buttonDefaultsForChatFrame
 --- @field isBottomButtonVisible boolean
 --- @field isDownButtonVisible boolean
@@ -70,6 +78,9 @@ function Private:GetDatabaseDefaults()
 	--- @class AceDBObject-3.0
 	local database = {
 		profile = {
+			chat = {
+				button = buttonDefaultsForChat,
+			},
 			chatFrames = {},
 		},
 	}

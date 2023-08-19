@@ -10,6 +10,59 @@ local ButtonModule = Private.Addon:GetModule("Button")
 --- @class DatabaseUtils
 local DatabaseUtils = Private.DatabaseUtils
 
+--- Returns the button options table for the chat.
+--- @return table
+function ButtonOptions:CreateOptionsTableForChat()
+	local databaseButton = DatabaseUtils.GetChatTable("button")
+
+	return {
+		order = 1,
+		type = "group",
+		name = ButtonModule.moduleName,
+		desc = "Button options",
+		args = {
+			buttonTogglesGroup = {
+				order = 1,
+				type = "group",
+				name = "Button Toggles",
+				inline = true,
+				args = {
+					channelButtonIsVisible = {
+						order = 1,
+						type = "toggle",
+						name = "Channel Button Visible",
+						desc = "Toggle the visibility of the channel button",
+						width = "full",
+						get = function()
+							return databaseButton.isChannelButtonVisible
+						end,
+						set = function(_, value)
+							databaseButton.isChannelButtonVisible = value
+
+							ButtonModule:UpdateButtonVisibilityForChat()
+						end,
+					},
+					menuButtonIsVisible = {
+						order = 2,
+						type = "toggle",
+						name = "Menu Button Visible",
+						desc = "Toggle the visibility of the menu button",
+						width = "full",
+						get = function()
+							return databaseButton.isMenuButtonVisible
+						end,
+						set = function(_, value)
+							databaseButton.isMenuButtonVisible = value
+
+							ButtonModule:UpdateButtonVisibilityForChat()
+						end,
+					},
+				},
+			},
+		},
+	}
+end
+
 --- Returns the button options table for a chat frame.
 --- @param chatFrame table
 --- @param index number
@@ -41,7 +94,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						set = function(_, value)
 							databaseButton.isBottomButtonVisible = value
 
-							ButtonModule:UpdateButtonVisibility(chatFrame)
+							ButtonModule:UpdateButtonVisibilityForChatFrame(chatFrame)
 						end,
 					},
 					downButtonIsVisible = {
@@ -56,7 +109,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						set = function(_, value)
 							databaseButton.isDownButtonVisible = value
 
-							ButtonModule:UpdateButtonVisibility(chatFrame)
+							ButtonModule:UpdateButtonVisibilityForChatFrame(chatFrame)
 						end,
 					},
 					upButtonIsVisible = {
@@ -71,7 +124,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						set = function(_, value)
 							databaseButton.isUpButtonVisible = value
 
-							ButtonModule:UpdateButtonVisibility(chatFrame)
+							ButtonModule:UpdateButtonVisibilityForChatFrame(chatFrame)
 						end,
 					},
 				},
