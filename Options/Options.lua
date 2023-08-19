@@ -13,6 +13,14 @@ local Options = {}
 --- @class ChatFrameUtils
 local ChatFrameUtils = Private.ChatFrameUtils
 
+local function createOptionsTableForChat()
+	local ButtonOptions = Private.ButtonOptions
+
+	return {
+		button = ButtonOptions:CreateOptionsTableForChat(),
+	}
+end
+
 --- Creates an options table for a chat frame.
 --- @param chatFrame table
 --- @param index number
@@ -42,11 +50,18 @@ local function createOptionsTable()
 		type = "group",
 		name = AddonName,
 		args = {
-			chatFrames = {
+			chat = {
 				order = 1,
 				type = "group",
+				name = "Chat",
+				desc = "Options for the chat",
+				args = createOptionsTableForChat(),
+			},
+			chatFrames = {
+				order = 2,
+				type = "group",
 				name = "Chat Frames",
-				desc = "Options for each chat frame",
+				desc = "Options for a chat frame",
 				args = {},
 			},
 		},
