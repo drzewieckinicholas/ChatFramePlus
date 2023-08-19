@@ -13,6 +13,8 @@ local Options = {}
 --- @class ChatFrameUtils
 local ChatFrameUtils = Private.ChatFrameUtils
 
+--- Creates an options table for the chat.
+--- @return table
 local function createOptionsTableForChat()
 	local ButtonOptions = Private.ButtonOptions
 
