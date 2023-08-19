@@ -10,6 +10,7 @@ local ChatFrameUtils = Private.ChatFrameUtils
 --- @class DatabaseUtils
 local DatabaseUtils = Private.DatabaseUtils
 
+--- Update the button properties for the chat.
 function ButtonModule:UpdateButtonVisibilityForChat()
 	local databaseButton = DatabaseUtils.GetChatTable("button")
 

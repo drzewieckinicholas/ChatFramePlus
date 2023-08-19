@@ -10,6 +10,8 @@ local ButtonModule = Private.Addon:GetModule("Button")
 --- @class DatabaseUtils
 local DatabaseUtils = Private.DatabaseUtils
 
+--- Returns the button options table for the chat.
+--- @return table
 function ButtonOptions:CreateOptionsTableForChat()
 	local databaseButton = DatabaseUtils.GetChatTable("button")
 
