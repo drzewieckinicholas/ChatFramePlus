@@ -31,11 +31,7 @@ function ButtonModule:UpdateButtonVisibilityForChatFrame(chatFrame)
 	}
 
 	for isVisible, button in pairs(buttonMap) do
-		if databaseButton[isVisible] then
-			button:Show()
-		else
-			button:Hide()
-		end
+		button:SetShown(databaseButton[isVisible])
 	end
 end
 
