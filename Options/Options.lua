@@ -17,9 +17,11 @@ local ChatFrameUtils = Private.ChatFrameUtils
 --- @return table
 local function createOptionsTableForChat()
 	local ButtonOptions = Private.ButtonOptions
+	local FrameOptions = Private.FrameOptions
 
 	return {
 		button = ButtonOptions:CreateOptionsTableForChat(),
+		frame = FrameOptions:CreateOptionsTableForChat(),
 	}
 end
 
