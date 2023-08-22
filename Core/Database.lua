@@ -66,6 +66,18 @@ local fontDefaultsForChatFrame = {
 	style = "",
 }
 
+--- @class frameDefaultsForChat
+--- @field fadeInTime number
+--- @field fadeOutTime number
+--- @field hideDelay number
+--- @field showDelay number
+local frameDefaultsForChat = {
+	fadeInTime = 0.25,
+	fadeOutTime = 0.25,
+	hideDelay = 0,
+	showDelay = 0,
+}
+
 --- @class tabDefaultsForChatFrame
 --- @field isBackgroundVisible boolean
 local tabDefaultsForChatFrame = {
@@ -80,6 +92,7 @@ function Private:GetDatabaseDefaults()
 		profile = {
 			chat = {
 				button = buttonDefaultsForChat,
+				frame = frameDefaultsForChat,
 			},
 			chatFrames = {},
 		},
