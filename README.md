@@ -15,6 +15,7 @@ ChatFramePlus options are available in the base World of Warcraft `Interface Opt
 - Copy chat messages
 - Filter out chat messages using your provided filter words
 - Customize font appearance
+- Customize frame show and hide delay as well as fade time
 - Customize tab visibility
 
 ## Techniques
