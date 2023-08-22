@@ -17,23 +17,15 @@ local DatabaseUtils = Private.DatabaseUtils
 local textures = {}
 
 --- Updates the visibility of the textures for a chat tab.
---- @param texturesForFrame table
---- @param isBackgroundVisible boolean
-local function updateTexturesVisibility(texturesForFrame, isBackgroundVisible)
-	local alpha = isBackgroundVisible and 1 or 0
-
-	for _, texture in pairs(texturesForFrame) do
-		texture:SetAlpha(alpha)
-	end
-end
-
---- Update the tab properties for a chat frame.
 --- @param chatFrame table
-function TabModule:UpdateTab(chatFrame)
+function TabModule:UpdateTabTextureVisibility(chatFrame)
 	local chatFrameId = ChatFrameUtils:GetChatFrameId(chatFrame)
 	local databaseTab = DatabaseUtils.GetChatFramesTable(chatFrameId, "tab")
+	local alpha = databaseTab.isBackgroundVisible and 1 or 0
 
-	updateTexturesVisibility(textures[chatFrame], databaseTab.isBackgroundVisible)
+	for _, texture in pairs(textures[chatFrame]) do
+		texture:SetAlpha(alpha)
+	end
 end
 
 function TabModule:OnInitialize()
@@ -48,6 +40,6 @@ end
 
 function TabModule:OnEnable()
 	ChatFrameUtils:ForEachChatFrame(function(chatFrame)
-		self:UpdateTab(chatFrame)
+		self:UpdateTabTextureVisibility(chatFrame)
 	end)
 end

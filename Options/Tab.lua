@@ -44,7 +44,7 @@ function TabOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						set = function(_, value)
 							databaseTab.isBackgroundVisible = value
 
-							TabModule:UpdateTab(chatFrame)
+							TabModule:UpdateTabTextureVisibility(chatFrame)
 						end,
 					},
 				},
