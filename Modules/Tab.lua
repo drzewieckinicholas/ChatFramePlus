@@ -33,7 +33,7 @@ function TabModule:OnInitialize()
 		textures[chatFrame] = textures[chatFrame] or {}
 
 		for _, textureSuffix in ipairs(TabConstants.TEXTURES) do
-			textures[chatFrame][textureSuffix] = ChatFrameUtils:GetChatTabTexture(chatFrame, textureSuffix)
+			textures[chatFrame][textureSuffix] = ChatFrameUtils:GetChatFrameTexture(chatFrame, textureSuffix)
 		end
 	end)
 end

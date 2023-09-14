@@ -15,6 +15,7 @@ Libs\Libs.xml
 Init\Init.lua
 
 # Constants
+Constants\Background.lua
 Constants\Border.lua
 Constants\Copy.lua
 Constants\Filter.lua
@@ -31,6 +32,7 @@ Utils\String.lua
 Utils\Trie.lua
 
 # Modules
+Modules\Background.lua
 Modules\Border.lua
 Modules\Button.lua
 Modules\Copy.lua
@@ -47,6 +49,7 @@ Core\Core.lua
 Core\Database.lua
 
 # Options
+Options\Background.lua
 Options\Options.lua
 Options\Border.lua
 Options\Button.lua
