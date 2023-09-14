@@ -55,6 +55,21 @@ function ChatFrameUtils:GetChatFrameName(chatFrame)
 	return chatFrame and chatFrame:GetName()
 end
 
+--- Returns a chat frame texture e.g. ChatFrame1BottomTexture
+--- @param chatFrame table
+--- @param textureSuffix string
+--- @return table?
+function ChatFrameUtils:GetChatFrameTexture(chatFrame, textureSuffix)
+	if not chatFrame then
+		return
+	end
+
+	local chatFrameName = self:GetChatFrameName(chatFrame)
+	local chatFrameTexture = _G[chatFrameName .. textureSuffix]
+
+	return chatFrameTexture
+end
+
 --- Returns a chat tab table e.g. ChatFrame1Tab
 --- @param chatFrame table
 --- @return table
@@ -73,21 +88,6 @@ function ChatFrameUtils:GetChatTabName(chatFrame)
 	local chatTab = self:GetChatTab(chatFrame)
 
 	return chatTab and chatTab:GetText()
-end
-
---- Returns a chat tab texture e.g. ChatFrame1TabLeft
---- @param chatFrame table
---- @param textureSuffix string
---- @return table?
-function ChatFrameUtils:GetChatTabTexture(chatFrame, textureSuffix)
-	if not chatFrame then
-		return
-	end
-
-	local chatFrameName = self:GetChatFrameName(chatFrame)
-	local chatTabTexture = _G[chatFrameName .. textureSuffix]
-
-	return chatTabTexture
 end
 
 Private.ChatFrameUtils = ChatFrameUtils
