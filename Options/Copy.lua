@@ -34,13 +34,11 @@ function CopyOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						type = "toggle",
 						name = "Enabled",
 						desc = function()
-							local copy = {
+							return table.concat({
 								"Toggle chat message copying on or off",
 								"This feature allows you to copy messages from a chat frame to the clipboard",
 								"Hold down the control key and left click on a chat frame tab to show the copy frame",
-							}
-
-							return table.concat(copy, "\n\n")
+							}, "\n\n")
 						end,
 						width = "full",
 						get = function(_)

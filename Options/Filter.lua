@@ -59,12 +59,10 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						type = "toggle",
 						name = "Exact Match",
 						desc = function()
-							local copy = {
+							return table.concat({
 								"Enable to filter out messages where any word in the message exactly matches one of your filter words",
 								"Disable to filter out messages where any word in the message partially matches one of your filter words",
-							}
-
-							return table.concat(copy, newLine(2))
+							}, newLine(2))
 						end,
 						width = "full",
 						get = function(_)
@@ -98,13 +96,11 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "description",
 						name = function()
-							local copy = {
+							return table.concat({
 								"Enter words to filter out messages from the chat frame",
 								"Each word should be on a new line",
 								"Words are case insensitive",
-							}
-
-							return table.concat(copy, newLine(2))
+							}, newLine(2))
 						end,
 						fontSize = "medium",
 						width = "full",
