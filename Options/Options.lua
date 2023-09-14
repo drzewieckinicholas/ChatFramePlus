@@ -30,6 +30,7 @@ end
 --- @param index number
 --- @return table
 local function createOptionsTableForChatFrame(chatFrame, index)
+	local BackgroundOptions = Private.BackgroundOptions
 	local BorderOptions = Private.BorderOptions
 	local ButtonOptions = Private.ButtonOptions
 	local CopyOptions = Private.CopyOptions
@@ -38,6 +39,7 @@ local function createOptionsTableForChatFrame(chatFrame, index)
 	local TabOptions = Private.TabOptions
 
 	return {
+		background = BackgroundOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 		border = BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 		button = ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index),
 		copy = CopyOptions:CreateOptionsTableForChatFrame(chatFrame, index),

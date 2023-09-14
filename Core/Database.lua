@@ -4,6 +4,12 @@ local Private = select(2, ...)
 --- @class ChatFrameUtils
 local ChatFrameUtils = Private.ChatFrameUtils
 
+--- @class backgroundDefaultsForChatFrame
+--- @field isBackgroundVisible boolean
+local backgroundDefaultsForChatFrame = {
+	isBackgroundVisible = true,
+}
+
 --- @class borderDefaultsForChatFrame
 --- @field color table
 --- @field margin number
@@ -100,6 +106,7 @@ function Private:GetDatabaseDefaults()
 
 	ChatFrameUtils:ForEachChatFrame(function(_, index)
 		database.profile.chatFrames[index] = {
+			background = backgroundDefaultsForChatFrame,
 			border = borderDefaultsForChatFrame,
 			button = buttonDefaultsForChatFrame,
 			copy = copyDefaultsForChatFrame,
