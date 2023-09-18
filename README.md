@@ -10,7 +10,7 @@ ChatFramePlus options are available in the base World of Warcraft `Interface Opt
 
 ## Features
 
-- Toggle background visibility
+- Toggle chat background visibility
 - Add and customize borders
 - Toggle button visibility
 - Copy chat messages
