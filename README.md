@@ -10,54 +10,11 @@ ChatFramePlus options are available in the base World of Warcraft `Interface Opt
 
 ## Features
 
-- Customize background visibility
-- Customize border appearance and visibility
-- Customize button visibility
+- Toggle background visibility
+- Add and customize borders
+- Toggle button visibility
 - Copy chat messages
-- Filter out chat messages using your provided filter words
+- Hide chat messages with filter words
 - Customize font appearance
-- Customize frame show and hide delay as well as fade time
-- Customize tab visibility
-
-## Techniques
-
-### Filter
-
-The filter feature builds a trie from your filter words.
-
-```lua
-ChatFramePlusDB = {
-	["trie"] = {
-		["isWordComplete"] = false,
-		["c"] = {
-			["a"] = {
-				["r"] = {
-					["r"] = {
-						["y"] = {
-							["isWordComplete"] = true,
-						},
-					},
-				},
-			},
-		},
-		["b"] = {
-			["i"] = {
-				["d"] = {
-					["isWordComplete"] = true,
-				},
-			},
-			["o"] = {
-				["o"] = {
-					["s"] = {
-						["t"] = {
-							["isWordComplete"] = true,
-						},
-					},
-				},
-			},
-		},
-	},
-}
-```
-
-Incoming chat messages are split into words and each word is searched against the trie. If any word matches a word in the trie, the chat message is filtered out.
+- Customize frame show delay, hide delay, and fade time
+- Toggle tab background visibility
