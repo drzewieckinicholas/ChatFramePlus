@@ -15,6 +15,6 @@ ChatFramePlus options are available in the base World of Warcraft `Interface Opt
 - Toggle button visibility
 - Copy chat messages
 - Hide chat messages with filter words
-- Customize font appearance
+- Customize font appearance including support for OpenDyslexic 3
 - Customize frame show delay, hide delay, and fade time
 - Toggle tab background visibility
