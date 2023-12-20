@@ -12,7 +12,7 @@ local ChatFrameHooks = Private.ChatFrameHooks
 
 function Addon:OnInitialize()
 	--- @class AceDBObject-3.0
-	Private.db = LibStub("AceDB-3.0"):New(AddonName .. "DB", Private:GetDatabaseDefaults(), true)
+	Private.db = LibStub("AceDB-3.0"):New(AddonName .. "DB", Private.Database:GetDatabaseDefaults(), true)
 
 	Private.Options:Initialize()
 end

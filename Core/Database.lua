@@ -1,6 +1,9 @@
 --- @class Private
 local Private = select(2, ...)
 
+--- @class Database
+local Database = {}
+
 --- @class ChatFrameUtils
 local ChatFrameUtils = Private.ChatFrameUtils
 
@@ -90,9 +93,23 @@ local tabDefaultsForChatFrame = {
 	isBackgroundVisible = true,
 }
 
+--- Get the database defaults for a chat frame.
+--- @return table
+function Database.GetChatFrameDefaults()
+	return {
+		background = backgroundDefaultsForChatFrame,
+		border = borderDefaultsForChatFrame,
+		button = buttonDefaultsForChatFrame,
+		copy = copyDefaultsForChatFrame,
+		filter = filterDefaultsForChatFrame,
+		font = fontDefaultsForChatFrame,
+		tab = tabDefaultsForChatFrame,
+	}
+end
+
 --- Get the database defaults.
 --- @return AceDBObject-3.0
-function Private:GetDatabaseDefaults()
+function Database:GetDatabaseDefaults()
 	--- @class AceDBObject-3.0
 	local database = {
 		profile = {
@@ -105,16 +122,10 @@ function Private:GetDatabaseDefaults()
 	}
 
 	ChatFrameUtils:ForEachChatFrame(function(_, index)
-		database.profile.chatFrames[index] = {
-			background = backgroundDefaultsForChatFrame,
-			border = borderDefaultsForChatFrame,
-			button = buttonDefaultsForChatFrame,
-			copy = copyDefaultsForChatFrame,
-			filter = filterDefaultsForChatFrame,
-			font = fontDefaultsForChatFrame,
-			tab = tabDefaultsForChatFrame,
-		}
+		database.profile.chatFrames[index] = self:GetChatFrameDefaults()
 	end)
 
 	return database
 end
+
+Private.Database = Database
