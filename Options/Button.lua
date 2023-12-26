@@ -19,7 +19,7 @@ function ButtonOptions:CreateOptionsTableForChat()
 		order = 1,
 		type = "group",
 		name = ButtonModule.moduleName,
-		desc = "Button options",
+		desc = "Button options.",
 		args = {
 			buttonTogglesGroup = {
 				order = 1,
@@ -31,7 +31,7 @@ function ButtonOptions:CreateOptionsTableForChat()
 						order = 1,
 						type = "toggle",
 						name = "Channel Button Visible",
-						desc = "Toggle the visibility of the channel button",
+						desc = "Toggle the visibility of the channel button.",
 						width = "full",
 						get = function()
 							return databaseButton.isChannelButtonVisible
@@ -46,7 +46,7 @@ function ButtonOptions:CreateOptionsTableForChat()
 						order = 2,
 						type = "toggle",
 						name = "Menu Button Visible",
-						desc = "Toggle the visibility of the menu button",
+						desc = "Toggle the visibility of the menu button.",
 						width = "full",
 						get = function()
 							return databaseButton.isMenuButtonVisible
@@ -74,7 +74,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		order = 2,
 		type = "group",
 		name = ButtonModule.moduleName,
-		desc = "Button options",
+		desc = "Button options.",
 		args = {
 			buttonTogglesGroup = {
 				order = 1,
@@ -86,7 +86,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "toggle",
 						name = "Bottom Button Visible",
-						desc = "Toggle the visibility of the bottom button",
+						desc = "Toggle the visibility of the bottom button.",
 						width = "full",
 						get = function()
 							return databaseButton.isBottomButtonVisible
@@ -101,7 +101,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 2,
 						type = "toggle",
 						name = "Down Button Visible",
-						desc = "Toggle the visibility of the down button",
+						desc = "Toggle the visibility of the down button.",
 						width = "full",
 						get = function()
 							return databaseButton.isDownButtonVisible
@@ -116,7 +116,7 @@ function ButtonOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 3,
 						type = "toggle",
 						name = "Up Button Visible",
-						desc = "Toggle the visibility of the up button",
+						desc = "Toggle the visibility of the up button.",
 						width = "full",
 						get = function()
 							return databaseButton.isUpButtonVisible

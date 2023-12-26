@@ -10,6 +10,12 @@ local BackgroundModule = Private.Addon:GetModule("Background")
 --- @class DatabaseUtils
 local DatabaseUtils = Private.DatabaseUtils
 
+--- @class StringUtils
+local StringUtils = Private.StringUtils
+
+--- @type function
+local newLine = StringUtils.GenerateNewLine
+
 --- Returns the background options table for a chat frame.
 --- @param chatFrame table
 --- @param index number
@@ -21,7 +27,7 @@ function BackgroundOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		order = 1,
 		type = "group",
 		name = BackgroundModule.moduleName,
-		desc = "Background options",
+		desc = "Background options.",
 		args = {
 			backgroundTogglesGroup = {
 				order = 1,
@@ -35,10 +41,10 @@ function BackgroundOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						name = "Background Visible",
 						desc = function()
 							return table.concat({
-								"Toggle the visibility of the chat background",
-								"By default, if you set the background color of a chat frame to transparent, the background will still show on mouseover",
-								"Disable this option to hide the background completely",
-							}, "\n\n")
+								"Toggle the visibility of the chat background.",
+								"By default, if you set the background color of a chat frame to transparent, the background will still show on mouseover.",
+								"Disable this option to hide the background completely.",
+							}, newLine(2))
 						end,
 						width = "full",
 						get = function(_)

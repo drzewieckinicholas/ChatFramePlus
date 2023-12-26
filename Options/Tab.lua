@@ -24,7 +24,7 @@ function TabOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		order = 6,
 		type = "group",
 		name = TabModule.moduleName,
-		desc = "Tab options",
+		desc = "Tab options.",
 		args = {
 			tabTogglesGroup = {
 				order = 1,
@@ -36,7 +36,7 @@ function TabOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "toggle",
 						name = "Background Visible",
-						desc = "Toggle the visibility of the chat tab background texture",
+						desc = "Toggle the visibility of the chat tab background texture.",
 						width = "full",
 						get = function(_)
 							return databaseTab.isBackgroundVisible

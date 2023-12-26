@@ -34,7 +34,7 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		type = "group",
 		childGroups = "tab",
 		name = FilterModule.moduleName,
-		desc = "Filter options",
+		desc = "Filter options.",
 		args = {
 			filterTogglesTab = {
 				order = 1,
@@ -45,7 +45,7 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
-						desc = "Toggle the filter on or off",
+						desc = "Toggle the filter on or off.",
 						width = "full",
 						get = function(_)
 							return databaseFilter.isEnabled
@@ -60,8 +60,8 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						name = "Exact Match",
 						desc = function()
 							return table.concat({
-								"Enable to filter out messages where any word in the message exactly matches one of your filter words",
-								"Disable to filter out messages where any word in the message partially matches one of your filter words",
+								"Enable to filter out messages where any word in the message exactly matches one of your filter words.",
+								"Disable to filter out messages where any word in the message partially matches one of your filter words.",
 							}, newLine(2))
 						end,
 						width = "full",
@@ -76,7 +76,7 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 3,
 						type = "toggle",
 						name = "Show Filtered Messages",
-						desc = "Toggle the display of filtered messages in the chat frame",
+						desc = "Toggle the display of filtered messages in the chat frame.",
 						width = "full",
 						get = function(_)
 							return databaseFilter.isShowFilteredMessages
@@ -97,9 +97,9 @@ function FilterOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						type = "description",
 						name = function()
 							return table.concat({
-								"Enter words to filter out messages from the chat frame",
-								"Each word should be on a new line",
-								"Words are case insensitive",
+								"Enter words to filter out messages from the chat frame.",
+								"Each word should be on a new line.",
+								"Words are case insensitive.",
 							}, newLine(2))
 						end,
 						fontSize = "medium",

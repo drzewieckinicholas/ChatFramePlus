@@ -30,7 +30,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		order = 5,
 		type = "group",
 		name = FontModule.moduleName,
-		desc = "Font options",
+		desc = "Font options.",
 		args = {
 			fontPropertiesGroup = {
 				order = 1,
@@ -42,7 +42,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "range",
 						name = "Font Size",
-						desc = "Set the font size",
+						desc = "Set the font size.",
 						min = FontConstants.SIZE_MIN,
 						max = FontConstants.SIZE_MAX,
 						step = FontConstants.SIZE_STEP,
@@ -62,10 +62,10 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						name = "Font Name",
 						desc = function()
 							return table.concat({
-								"Set the font name",
-								"Custom fonts must be placed in the following folder",
+								"Set the font name.",
+								"Custom fonts must be placed in the following folder:",
 								"ChatFramePlus\\Assets\\Fonts",
-								"Custom fonts must be in the following format",
+								"Custom fonts must be in the following format:",
 								"custom-font-1.ttf",
 							}, newLine(2))
 						end,
@@ -84,7 +84,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 3,
 						type = "select",
 						name = "Font Style",
-						desc = "Set the font style",
+						desc = "Set the font style.",
 						values = FontConstants.STYLES,
 						width = "full",
 						get = function(_)
