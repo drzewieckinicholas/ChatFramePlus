@@ -13,6 +13,12 @@ local FontConstants = Private.FontConstants
 --- @class DatabaseUtils
 local DatabaseUtils = Private.DatabaseUtils
 
+--- @class StringUtils
+local StringUtils = Private.StringUtils
+
+--- @type function
+local newLine = StringUtils.GenerateNewLine
+
 --- Returns the font options table for a chat frame.
 --- @param chatFrame table
 --- @param index number
@@ -24,7 +30,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		order = 5,
 		type = "group",
 		name = FontModule.moduleName,
-		desc = "Font options",
+		desc = "Font options.",
 		args = {
 			fontPropertiesGroup = {
 				order = 1,
@@ -36,7 +42,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "range",
 						name = "Font Size",
-						desc = "Set the font size",
+						desc = "Set the font size.",
 						min = FontConstants.SIZE_MIN,
 						max = FontConstants.SIZE_MAX,
 						step = FontConstants.SIZE_STEP,
@@ -54,7 +60,15 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 2,
 						type = "select",
 						name = "Font Name",
-						desc = "Set the font name",
+						desc = function()
+							return table.concat({
+								"Set the font name.",
+								"Custom fonts must be placed in the following folder:",
+								"ChatFramePlus\\Assets\\Fonts",
+								"Custom fonts must be in the following format:",
+								"custom-font-1.ttf",
+							}, newLine(2))
+						end,
 						values = FontConstants.NAMES,
 						width = "full",
 						get = function(_)
@@ -70,7 +84,7 @@ function FontOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 3,
 						type = "select",
 						name = "Font Style",
-						desc = "Set the font style",
+						desc = "Set the font style.",
 						values = FontConstants.STYLES,
 						width = "full",
 						get = function(_)

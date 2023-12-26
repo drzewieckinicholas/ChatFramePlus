@@ -28,7 +28,7 @@ function FrameOptions:CreateOptionsTableForChat()
 		order = 2,
 		type = "group",
 		name = FrameModule.moduleName,
-		desc = "Frame options",
+		desc = "Frame options.",
 		args = {
 			framePropertiesGroup = {
 				order = 1,
@@ -42,8 +42,8 @@ function FrameOptions:CreateOptionsTableForChat()
 						name = "Show Delay",
 						desc = function()
 							return table.concat({
-								"Set the chat show delay",
-								"This is the amount of time it takes for the chat to start the fade in animation on mouseover",
+								"Set the chat show delay.",
+								"This is the amount of time it takes for the chat to start the fade in animation on mouseover.",
 							}, newLine(2))
 						end,
 						min = FrameConstants.SHOW_DELAY_MIN,
@@ -65,8 +65,8 @@ function FrameOptions:CreateOptionsTableForChat()
 						name = "Hide Delay",
 						desc = function()
 							return table.concat({
-								"Set the chat hide delay",
-								"This is the amount of time it takes for the chat to start the fade out animation on mouseout",
+								"Set the chat hide delay.",
+								"This is the amount of time it takes for the chat to start the fade out animation on mouseout.",
 							}, newLine(2))
 						end,
 						min = FrameConstants.HIDE_DELAY_MIN,
@@ -86,7 +86,7 @@ function FrameOptions:CreateOptionsTableForChat()
 						order = 3,
 						type = "range",
 						name = "Fade In Time",
-						desc = "Set the chat fade in time",
+						desc = "Set the chat fade in time.",
 						min = FrameConstants.FADE_IN_TIME_MIN,
 						max = FrameConstants.FADE_IN_TIME_MAX,
 						step = FrameConstants.FADE_IN_TIME_STEP,
@@ -104,7 +104,7 @@ function FrameOptions:CreateOptionsTableForChat()
 						order = 4,
 						type = "range",
 						name = "Fade Out Time",
-						desc = "Set the chat fade out time",
+						desc = "Set the chat fade out time.",
 						min = FrameConstants.FADE_OUT_TIME_MIN,
 						max = FrameConstants.FADE_OUT_TIME_MAX,
 						step = FrameConstants.FADE_OUT_TIME_STEP,

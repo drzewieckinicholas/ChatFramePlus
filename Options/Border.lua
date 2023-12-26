@@ -24,7 +24,7 @@ function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 		order = 1,
 		type = "group",
 		name = BorderModule.moduleName,
-		desc = "Border options",
+		desc = "Border options.",
 		args = {
 			borderTogglesGroup = {
 				order = 1,
@@ -36,7 +36,7 @@ function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "toggle",
 						name = "Enabled",
-						desc = "Toggle the border on or off",
+						desc = "Toggle the border on or off.",
 						width = "full",
 						get = function(_)
 							return databaseBorder.isEnabled
@@ -59,7 +59,7 @@ function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 1,
 						type = "color",
 						name = "Color",
-						desc = "Set the border color",
+						desc = "Set the border color.",
 						hasAlpha = true,
 						width = "full",
 						get = function(_)
@@ -82,7 +82,7 @@ function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 2,
 						type = "range",
 						name = "Margin",
-						desc = "Set the border margin",
+						desc = "Set the border margin.",
 						min = BorderConstants.MARGIN_MIN,
 						max = BorderConstants.MARGIN_MAX,
 						step = BorderConstants.MARGIN_STEP,
@@ -100,7 +100,7 @@ function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 3,
 						type = "range",
 						name = "Size",
-						desc = "Set the border size",
+						desc = "Set the border size.",
 						min = BorderConstants.SIZE_MIN,
 						max = BorderConstants.SIZE_MAX,
 						step = BorderConstants.SIZE_STEP,
@@ -123,7 +123,7 @@ function BorderOptions:CreateOptionsTableForChatFrame(chatFrame, index)
 						order = 4,
 						type = "select",
 						name = "Texture",
-						desc = "Set the border texture",
+						desc = "Set the border texture.",
 						values = BorderConstants.TEXTURES,
 						width = "full",
 						get = function(_)

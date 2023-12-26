@@ -17,8 +17,12 @@ FontConstants.SIZE_STEP = 2
 FontConstants.NAMES = {
 	["Fonts\\ARIALN.TTF"] = "Arial Narrow",
 	["Fonts\\FRIZQT__.TTF"] = "Friz Quadrata TT",
-	["Interface\\AddOns\\ChatFramePlus\\Assets\\Fonts\\OpenDyslexic3-Regular.ttf"] = "OpenDyslexic 3",
-	["Interface\\AddOns\\ChatFramePlus\\Assets\\Fonts\\OpenDyslexicMono-Regular.otf"] = "OpenDyslexic Mono",
+	["Fonts\\MORPHEUS.TTF"] = "Morpheus",
+	["Fonts\\NIM_____.ttf"] = "Nimrod MT",
+	["Fonts\\skurri.TTF"] = "Skurri",
+	["Interface\\AddOns\\ChatFramePlus\\Assets\\Fonts\\custom-font-1.ttf"] = "Custom Font 1",
+	["Interface\\AddOns\\ChatFramePlus\\Assets\\Fonts\\custom-font-2.ttf"] = "Custom Font 2",
+	["Interface\\AddOns\\ChatFramePlus\\Assets\\Fonts\\custom-font-3.ttf"] = "Custom Font 3",
 }
 
 --- @type table<string, string>
